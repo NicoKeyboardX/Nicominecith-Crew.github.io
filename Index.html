@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nicominecith Crew Hub</title>
+<script src="https://www.google.com/search?q=https://cdn.tailwindcss.com"></script>
+<style>
+@keyframes float {
+0%, 100% { transform: translateY(0) rotate(0deg); }
+50% { transform: translateY(-25px) rotate(2deg); }
+}
+.animate-float {
+animation: float 8s ease-in-out infinite;
+}
+body {
+background-color: black;
+color: white;
+font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+.reveal-item {
+opacity: 0;
+transform: translateY(20px);
+transition: all 0.8s ease-out;
+}
+.reveal-item.visible {
+opacity: 1;
+transform: translateY(0);
+}
+</style>
+</head>
+<body class="selection:bg-red-600 overflow-x-hidden">
+<!-- Hintergrundbild -->
+<div class="fixed inset-0 z-0">
+    <div class="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-60"
+         style="background-image: url('https://s1.directupload.eu/images/260215/joqhnq6i.jpg');"></div>
+    <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-black/20 to-black/90"></div>
+</div>
+
+<!-- Hero Sektion -->
+<section class="relative h-screen flex flex-col items-center justify-center p-4 z-10 text-center">
+    <div class="reveal-item flex flex-col items-center w-full max-w-4xl">
+        <div class="mb-8 w-full flex justify-center relative">
+            <img src="https://s1.directupload.eu/images/260215/pldsevfi.png" 
+                 alt="Nicominecith Logo" 
+                 class="w-64 md:w-80 object-contain drop-shadow-[0_0_50px_rgba(0,0,0,0.8)] animate-float">
+        </div>
+        <div class="space-y-4">
+            <h1 class="text-6xl md:text-9xl font-black italic uppercase tracking-tighter leading-none text-white drop-shadow-[0_5px_15px_rgba(0,0,0,0.7)]">
+                Nicominecith <span class="text-red-700 block md:inline">Crew</span>
+            </h1>
+            <p class="text-zinc-200 font-bold tracking-[0.4em] text-sm uppercase italic drop-shadow-md">Der ultimative Shinobi Clan Hub</p>
+        </div>
+        <div class="mt-16 animate-bounce">
+            <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </div>
+    </div>
+</section>
+
+<!-- Hauptinhalt -->
+<div class="max-w-6xl mx-auto px-6 space-y-[40vh] pb-[20vh] relative z-10">
+    
+    <!-- SHINOBI RANGLISTE -->
+    <section class="reveal-item max-w-3xl mx-auto">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl md:text-6xl font-black italic uppercase tracking-tighter flex items-center justify-center gap-4 text-white drop-shadow-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+                Clan Mission
+            </h2>
+            <p class="text-zinc-300 text-[10px] mt-2 tracking-[0.5em] uppercase font-bold drop-shadow-sm">Echtzeit Abonnenten Zähler</p>
+        </div>
+
+        <!-- Schriftrolle -->
+        <div class="relative group">
+            <div class="h-8 w-full bg-gradient-to-r from-amber-950 via-amber-800 to-amber-950 rounded-full border-b-4 border-black/60 shadow-2xl relative z-20"></div>
+            <div class="mx-6 bg-[#f7f1e6] p-4 md:p-10 border-x-8 border-[#e3d5bb] shadow-2xl relative overflow-hidden">
+                <div class="absolute inset-0 opacity-5 pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')]"></div>
+                <div class="relative overflow-hidden rounded-2xl border-4 border-double border-amber-900/30 bg-white/40 backdrop-blur-sm p-1">
+                    <iframe src="https://socialcounts.org/youtube-live-subscriber-count/UCnXfuaEfWJnXlSAvMs0HE5Q/embed" 
+                            style="border: 0; width: 100%; height: 140px;" 
+                            allowFullScreen 
+                            class="relative z-10"></iframe>
+                </div>
+                <div class="mt-8 flex justify-between items-center px-4 md:px-10 border-t-2 border-amber-900/10 pt-8 text-amber-950">
+                    <div class="flex flex-col items-center">
+                        <span class="text-[10px] font-black text-amber-900/60 uppercase tracking-widest">Clan Rang</span>
+                        <span class="text-2xl font-black italic uppercase tracking-tighter">Jonin Elite</span>
+                    </div>
+                    <div class="h-12 w-px bg-amber-900/20 rotate-12"></div>
+                    <div class="flex flex-col items-center">
+                        <span class="text-[10px] font-black text-amber-900/60 uppercase tracking-widest">Status</span>
+                        <span class="text-2xl font-black text-red-700 italic uppercase animate-pulse drop-shadow-sm">Aktiv</span>
+                    </div>
+                </div>
+            </div>
+            <div class="h-8 w-full bg-gradient-to-r from-amber-950 via-amber-800 to-amber-950 rounded-full border-t-4 border-black/60 shadow-2xl relative z-20"></div>
+        </div>
+    </section>
+
+    <!-- Missions-Bereich -->
+    <section class="reveal-item space-y-16">
+        <div class="text-center">
+            <h2 class="text-4xl md:text-6xl font-black italic mb-4 uppercase tracking-tighter flex items-center justify-center gap-4 text-white drop-shadow-xl">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#dc2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17V5a2 2 0 0 0-2-2H4"/><path d="M8 21h12a2 2 0 0 0 2-2v-1a1 1 0 0 0-1-1H11a1 1 0 0 0-1 1v1a2 2 0 1 1-4 0V5a2 2 0 1 0-4 0v2a1 1 0 0 0 1 1h3"/></svg>
+                Clan-Zentrum
+            </h2>
+            <div class="h-1 w-32 bg-red-600 mx-auto opacity-60"></div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <div class="bg-black/60 p-10 rounded-[3rem] border-2 border-zinc-800/50 hover:border-red-600/50 transition-all group backdrop-blur-xl">
+                <h3 class="text-4xl font-black mb-4 italic uppercase text-white">Allianzen</h3>
+                <p class="text-zinc-300 mb-10 italic leading-relaxed text-lg">Verbinde dein Dorf mit der Nicominecith Crew. Eröffne ein Ticket für offizielle Bündnisse.</p>
+                <a href="https://discord.gg/9SG8mJKjm2" class="block w-full text-center bg-red-800 hover:bg-red-600 py-5 rounded-2xl font-black italic tracking-widest transition-all shadow-lg shadow-red-900/20">ANFRAGE SENDEN</a>
+            </div>
+            <div class="bg-black/60 p-10 rounded-[3rem] border-2 border-zinc-800/50 hover:border-red-600/50 transition-all group backdrop-blur-xl">
+                <h3 class="text-4xl font-black mb-4 italic uppercase text-white">Mitgliedschaft</h3>
+                <p class="text-zinc-300 mb-10 italic leading-relaxed text-lg">Werde Teil unserer Elite. Zeige dein Können in unseren Community-Events und Streams.</p>
+                <a href="https://discord.gg/9SG8mJKjm2" class="block w-full text-center border-2 border-red-800 hover:bg-red-800 py-5 rounded-2xl font-black italic tracking-widest transition-all">JETZT BEWERBEN</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Discord -->
+    <section class="reveal-item flex flex-col items-center">
+        <div class="text-center mb-16">
+            <h2 class="text-5xl md:text-7xl font-black italic uppercase tracking-tighter text-white drop-shadow-2xl">Clan Hauptquartier</h2>
+        </div>
+        <div class="w-full max-w-[500px] p-2 bg-gradient-to-b from-red-700/30 to-transparent rounded-[4.5rem] shadow-2xl">
+            <div class="bg-black p-3 rounded-[4.2rem] overflow-hidden">
+                <iframe src="https://discord.com/widget?id=1302663524568272999&theme=dark" width="100%" height="600" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts" class="rounded-[3.8rem]"></iframe>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<!-- Footer -->
+<footer class="py-24 bg-black/90 border-t border-zinc-900 text-center relative z-10 backdrop-blur-md">
+    <p class="text-zinc-700 text-[10px] tracking-[1em] uppercase italic font-black opacity-60">Nicominecith Crew &bull; Est. 2026</p>
+</footer>
+
+<script>
+    const observerOptions = { threshold: 0.1 };
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.reveal-item').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
