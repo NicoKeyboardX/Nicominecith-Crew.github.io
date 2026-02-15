@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>KeyboardX</title>
+    <link rel="icon" type="image/png" href="https://s1.directupload.eu/images/250803/jeultqab.png" />
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background: linear-gradient(to bottom, #d2479e, #8f2d93, #4f2d93);
+            color: #fff;
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            text-align: center;
+        }
+        
+        #start-screen,
+        #keyboard-mode,
+        #mouse-mode {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            padding: 2em;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        
+        h1 {
+            margin-bottom: 1em;
+        }
+        
+        select,
+        button,
+        input[type="file"] {
+            margin: 0.5em;
+            padding: 0.7em;
+            font-size: 1em;
+            border-radius: 5px;
+            border: none;
+        }
+        
+        button {
+            margin-top: 1em;
+            background-color: #0a74da;
+            color: #fff;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        button:hover {
+            background-color: #075ea3;
+        }
+        
+        .keyboard,
+        .mouse-tester {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 2em;
+        }
+        
+        .row {
+            display: flex;
+            margin: 0.2em 0;
+        }
+        
+        .key {
+            background-color: rgba(34, 34, 34, 0.8);
+            border: 1px solid #555;
+            padding: 0.7em 1em;
+            margin: 0.1em;
+            border-radius: 5px;
+            text-align: center;
+            min-width: 2em;
+            user-select: none;
+            transition: background 0.1s, box-shadow 0.1s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .key.wide {
+            min-width: 5em;
+        }
+        
+        .key.xwide {
+            min-width: 6em;
+        }
+        
+        .key.xxwide {
+            min-width: 12em;
+        }
+        
+        .key.active {
+            background-color: #0a74da;
+            color: #fff;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .mouse-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .mouse-image {
+            width: 200px;
+            height: auto;
+            margin-bottom: 1em;
+        }
+        
+        .mouse-buttons {
+            display: flex;
+            gap: 1em;
+            margin-top: 1em;
+        }
+        
+        .mouse-btn {
+            padding: 1em 2em;
+            background-color: rgba(34, 34, 34, 0.8);
+            border: 1px solid #555;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.1s, box-shadow 0.1s;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        }
+        
+        .mouse-btn.active {
+            background-color: #0a74da;
+            color: #fff;
+            box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        #mousePos,
+        #scrollInfo {
+            margin-top: 1em;
+            font-size: 1.2em;
+        }
+        
+        #credits {
+            position: fixed;
+            bottom: 5px;
+            right: 10px;
+            font-size: 0.8em;
+            opacity: 0.6;
+        }
+        
+        #top-controls {
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+        }
+        
+        input[type="checkbox"] {
+            transform: scale(1.2);
+            margin-left: 1em;
+        }
+        
+        .device-status {
+            margin-top: 1em;
+            font-size: 1em;
+            color: #fff;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="start-screen">
+        <h1 id="title-welcome">Willkommen bei <strong>KeyboardX</strong></h1>
+
+        <div class="device-status">
+            <p id="keyboardStatus">Tastatur: Erkannt</p>
+            <p id="mouseStatus">Maus: Erkannt</p>
+        </div>
+
+        <label id="label-language" for="langSelect">Sprache:</label>
+        <select id="langSelect">
+            <option value="de" selected>Deutsch</option>
+            <option value="en">English</option>
+            <option value="ru">Русский</option>
+        </select>
+
+        <label id="label-layout" for="layoutSelect">Tastatur-Layout:</label>
+        <select id="layoutSelect">
+            <option value="de" selected>Deutsch (QWERTZ)</option>
+            <option value="en">English (QWERTY)</option>
+            <option value="ru">Russian (ЙЦУКЕН)</option>
+        </select>
+
+        <br />
+
+        <button id="keyboardBtn">Tastatur testen</button>
+        <button id="mouseBtn">Maus testen</button>
+
+        <br />
+
+        <label id="label-bg-upload" for="bgUpload">Hintergrundbild (PNG/JPG):</label>
+        <input type="file" id="bgUpload" accept="image/png, image/jpeg" />
+        <label>
+            <input type="checkbox" id="bgToggle" checked />
+            <span id="label-bg-toggle">Hintergrund anzeigen</span>
+        </label>
+    </div>
+
+    <div id="keyboard-mode">
+        <div id="top-controls">
+            <button id="backBtn1">Zurück zum Menü</button>
+        </div>
+        <h1 id="title-keyboard">KeyboardX – Tastatur Tester</h1>
+        <div class="keyboard" id="keyboard"></div>
+    </div>
+
+    <div id="mouse-mode">
+        <div id="top-controls">
+            <button id="backBtn2">Zurück zum Menü</button>
+        </div>
+        <h1 id="title-mouse">KeyboardX – Maus Tester</h1>
+        <div class="mouse-container">
+            <div class="mouse-buttons">
+                <div class="mouse-btn" id="leftBtn">Links</div>
+                <div class="mouse-btn" id="middleBtn">Mitte</div>
+                <div class="mouse-btn" id="rightBtn">Rechts</div>
+            </div>
+            <div id="scrollInfo">Scroll: 0</div>
+            <div id="mousePos">Position: X: 0, Y: 0</div>
+        </div>
+    </div>
+
+    <div id="credits">Credits von Nicominecith</div>
+
+    <script>
+        const texts = {
+            de: {
+                welcome: "Willkommen bei <strong>KeyboardX</strong>",
+                language: "Sprache:",
+                layout: "Tastatur-Layout:",
+                keyboardTest: "Tastatur testen",
+                mouseTest: "Maus testen",
+                bgUpload: "Hintergrundbild (PNG/JPG):",
+                bgToggle: "Hintergrund anzeigen",
+                backMenu: "Zurück zum Menü",
+                keyboardTitle: "KeyboardX – Tastatur Tester",
+                mouseTitle: "KeyboardX – Maus Tester",
+                mouseLeft: "Links",
+                mouseMiddle: "Mitte",
+                mouseRight: "Rechts",
+                mousePos: "Position: X: {x}, Y: {y}",
+                scrollUp: "Scroll: Nach oben",
+                scrollDown: "Scroll: Nach unten",
+                keyboardStatus: "Tastatur: Erkannt",
+                mouseStatus: "Maus: Erkannt"
+            },
+            en: {
+                welcome: "Welcome to <strong>KeyboardX</strong>",
+                language: "Language:",
+                layout: "Keyboard Layout:",
+                keyboardTest: "Test Keyboard",
+                mouseTest: "Test Mouse",
+                bgUpload: "Background Image (PNG/JPG):",
+                bgToggle: "Show Background",
+                backMenu: "Back to Menu",
+                keyboardTitle: "KeyboardX – Keyboard Tester",
+                mouseTitle: "KeyboardX – Mouse Tester",
+                mouseLeft: "Left",
+                mouseMiddle: "Middle",
+                mouseRight: "Right",
+                mousePos: "Position: X: {x}, Y: {y}",
+                scrollUp: "Scroll: Up",
+                scrollDown: "Scroll: Down",
+                keyboardStatus: "Keyboard: Detected",
+                mouseStatus: "Mouse: Detected"
+            },
+            ru: {
+                welcome: "Добро пожаловать в <strong>KeyboardX</strong>",
+                language: "Язык:",
+                layout: "Раскладка клавиатуры:",
+                keyboardTest: "Проверить клавиатуру",
+                mouseTest: "Проверить мышь",
+                bgUpload: "Фоновое изображение (PNG/JPG):",
+                bgToggle: "Показать фон",
+                backMenu: "Вернуться в меню",
+                keyboardTitle: "KeyboardX – тест клавиатуры",
+                mouseTitle: "KeyboardX – тест мыши",
+                mouseLeft: "Левая",
+                mouseMiddle: "Средняя",
+                mouseRight: "Правая",
+                mousePos: "Позиция: X: {x}, Y: {y}",
+                scrollUp: "Прокрутка: вверх",
+                scrollDown: "Прокрутка: вниз",
+                keyboardStatus: "Клавиатура: Обнаружена",
+                mouseStatus: "Мышь: Обнаружена"
+            }
+        };
+
+        const layouts = {
+            de: [
+                ["^", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "ß", "´", "Backspace"],
+                ["Tab", "q", "w", "e", "r", "t", "z", "u", "i", "o", "p", "ü", "+", "Enter"],
+                ["CapsLock", "a", "s", "d", "f", "g", "h", "j", "k", "l", "ö", "ä", "#"],
+                ["Shift", "<", "y", "x", "c", "v", "b", "n", "m", ",", ".", "-", "Shift"],
+                ["Ctrl", "Win", "Alt", " ", "AltGr", "Menu", "Ctrl"]
+            ],
+            en: [
+                ["`", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", "Backspace"],
+                ["Tab", "q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "[", "]", "Enter"],
+                ["CapsLock", "a", "s", "d", "f", "g", "h", "j", "k", "l", ";", "'", "\\"],
+                ["Shift", "z", "x", "c", "v", "b", "n", "m", ",", ".", "/", "Shift"],
+                ["Ctrl", "Win", "Alt", " ", "Alt", "Menu", "Ctrl"]
+            ],
+            ru: [
+                ["ё", "1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", "Backspace"],
+                ["Tab", "й", "ц", "у", "к", "е", "н", "г", "ш", "щ", "з", "х", "ъ", "Enter"],
+                ["CapsLock", "ф", "ы", "в", "а", "п", "р", "о", "л", "д", "ж", "э", "\\"],
+                ["Shift", "я", "ч", "с", "м", "и", "т", "ь", "б", "ю", ".", "Shift"],
+                ["Ctrl", "Win", "Alt", " ", "Alt", "Menu", "Ctrl"]
+            ]
+        };
+
+        const $ = id => document.getElementById(id);
+
+        const screens = {
+            start: $("start-screen"),
+            keyboard: $("keyboard-mode"),
+            mouse: $("mouse-mode")
+        };
+
+        const buttons = {
+            keyboard: $("keyboardBtn"),
+            mouse: $("mouseBtn"),
+            back1: $("backBtn1"),
+            back2: $("backBtn2")
+        };
+
+        const mouseUI = {
+            pos: $("mousePos"),
+            scroll: $("scrollInfo"),
+            left: $("leftBtn"),
+            middle: $("middleBtn"),
+            right: $("rightBtn")
+        };
+
+        const langSelect = $("langSelect");
+        const layoutSelect = $("layoutSelect");
+        const originalGradient = 'linear-gradient(to bottom, #d2479e, #8f2d93, #4f2d93)';
+
+        function updateTexts() {
+            const t = texts[langSelect.value];
+            $("title-welcome").innerHTML = t.welcome;
+            $("label-language").textContent = t.language;
+            $("label-layout").textContent = t.layout;
+            $("keyboardBtn").textContent = t.keyboardTest;
+            $("mouseBtn").textContent = t.mouseTest;
+            $("label-bg-upload").textContent = t.bgUpload;
+            $("label-bg-toggle").textContent = t.bgToggle;
+            $("backBtn1").textContent = t.backMenu;
+            $("backBtn2").textContent = t.backMenu;
+            $("title-keyboard").textContent = t.keyboardTitle;
+            $("title-mouse").textContent = t.mouseTitle;
+            $("leftBtn").textContent = t.mouseLeft;
+            $("middleBtn").textContent = t.mouseMiddle;
+            $("rightBtn").textContent = t.mouseRight;
+            $("keyboardStatus").textContent = t.keyboardStatus;
+            $("mouseStatus").textContent = t.mouseStatus;
+        }
+
+        function showScreen(mode) {
+            Object.values(screens).forEach(s => s.style.display = "none");
+            screens[mode].style.display = "flex";
+        }
+
+        function createKeyboard() {
+            const layout = layouts[layoutSelect.value];
+            const container = $("keyboard");
+            container.innerHTML = "";
+            layout.forEach(row => {
+                const rowDiv = document.createElement("div");
+                rowDiv.className = "row";
+                row.forEach(key => {
+                    const el = document.createElement("div");
+                    el.className = "key";
+                    if (["Backspace", "Tab", "CapsLock", "Enter", "Ctrl", "Alt", "AltGr", "Menu", "Win"].includes(key)) el.classList.add("wide");
+                    if (["Shift"].includes(key)) el.classList.add("xwide");
+                    if (key === " ") el.classList.add("xxwide");
+                    el.textContent = key;
+                    rowDiv.appendChild(el);
+                });
+                container.appendChild(rowDiv);
+            });
+        }
+
+        function highlightKey(k) {
+            const keys = document.querySelectorAll(".key");
+            keys.forEach(el => {
+                if (el.textContent.toLowerCase() === k.toLowerCase()) {
+                    el.classList.add("active");
+                }
+            });
+        }
+
+        function clearKeys() {
+            document.querySelectorAll(".key").forEach(k => {
+                k.classList.remove("active");
+            });
+        }
+
+        document.addEventListener("keydown", e => {
+            if (screens.keyboard.style.display === "flex") {
+                highlightKey(e.key);
+            }
+        });
+
+        document.addEventListener("keyup", () => {
+            if (screens.keyboard.style.display === "flex") {
+                clearKeys();
+            }
+        });
+
+        document.addEventListener("mousedown", e => {
+            if (screens.mouse.style.display !== "flex") return;
+            if (e.button === 0) {
+                mouseUI.left.classList.add("active");
+            }
+            if (e.button === 1) {
+                mouseUI.middle.classList.add("active");
+            }
+            if (e.button === 2) {
+                mouseUI.right.classList.add("active");
+            }
+        });
+
+        document.addEventListener("mouseup", e => {
+            mouseUI.left.classList.remove("active");
+            mouseUI.middle.classList.remove("active");
+            mouseUI.right.classList.remove("active");
+        });
+
+        document.addEventListener("mousemove", e => {
+            const t = texts[langSelect.value];
+            mouseUI.pos.textContent = t.mousePos.replace("{x}", e.clientX).replace("{y}", e.clientY);
+        });
+
+        document.addEventListener("wheel", e => {
+            mouseUI.scroll.textContent = e.deltaY > 0 ? texts[langSelect.value].scrollDown : texts[langSelect.value].scrollUp;
+        });
+
+        buttons.keyboard.onclick = () => {
+            showScreen("keyboard");
+            createKeyboard();
+        };
+
+        buttons.mouse.onclick = () => {
+            showScreen("mouse");
+        };
+
+        buttons.back1.onclick = () => {
+            showScreen("start");
+            clearKeys();
+        };
+
+        buttons.back2.onclick = () => {
+            showScreen("start");
+        };
+
+        $("bgUpload").addEventListener("change", e => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = ev => {
+                if ($("bgToggle").checked) {
+                    document.body.style.backgroundImage = `url('${ev.target.result}')`;
+                }
+            };
+            reader.readAsDataURL(file);
+        });
+
+        $("bgToggle").addEventListener("change", () => {
+            if (!$("bgToggle").checked) {
+                document.body.style.backgroundImage = originalGradient;
+            } else {
+                const uploadedFile = $("bgUpload").files[0];
+                if (uploadedFile) {
+                    const reader = new FileReader();
+                    reader.onload = ev => {
+                        document.body.style.backgroundImage = `url('${ev.target.result}')`;
+                    };
+                    reader.readAsDataURL(uploadedFile);
+                } else {
+                    document.body.style.backgroundImage = originalGradient;
+                }
+            }
+        });
+
+        langSelect.onchange = () => {
+            updateTexts();
+            layoutSelect.value = langSelect.value;
+            createKeyboard();
+        };
+
+        layoutSelect.onchange = createKeyboard;
+
+        document.addEventListener("contextmenu", e => e.preventDefault());
+
+        updateTexts();
+        showScreen("start");
+    </script>
+</body>
+
+</html>
