@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nicominecith Crew - Official Hub</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Bungee+Inline&family=Permanent+Marker&family=Shojumaru&family=Noto+Sans+JP:wght@300;400;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+    :root {
+        --nj-red: #ff0000;
+        --nj-red-dark: #220000;
+        --glass-bg: rgba(10, 10, 10, 0.8);
+        --glass-border: rgba(255, 255, 255, 0.1);
+        --neon-shadow: 0 0 25px rgba(255, 0, 0, 0.4);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+
+    body {
+        background-color: #010101;
+        color: #ffffff;
+        font-family: 'Noto Sans JP', sans-serif;
+        overflow-x: hidden;
+    }
+
+    .ninja-font { font-family: 'Shojumaru', cursive; }
+    .marker-font { font-family: 'Permanent Marker', cursive; }
+    .display-font { font-family: 'Bungee Inline', cursive; }
+    .mono-font { font-family: 'Fira Code', monospace; }
+
+    .bg-overlay {
+        position: fixed;
+        inset: 0;
+        z-index: -2;
+        background: radial-gradient(circle at center, #1a0000 0%, #000 100%);
+    }
+
+    .glass {
+        background: var(--glass-bg);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--glass-border);
+        border-radius: 20px;
+        transition: 0.3s ease;
+    }
+
+    .glass:hover {
+        border-color: rgba(255, 0, 0, 0.3);
+        box-shadow: var(--neon-shadow);
+    }
+
+    nav {
+        position: fixed;
+        top: 15px; left: 50%; transform: translateX(-50%);
+        width: 95%; max-width: 1200px;
+        z-index: 1000;
+        padding: 12px 25px;
+    }
+
+    .sharingan-eye {
+        width: 180px; height: 180px;
+        margin: 0 auto;
+        animation: rotateEye 50s linear infinite;
+    }
+
+    @keyframes rotateEye { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    .reveal { opacity: 0; transform: translateY(40px); transition: 1s ease-out; }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+
+    .btn-red {
+        background: linear-gradient(135deg, #ff0000 0%, #880000 100%);
+        transition: 0.3s;
+    }
+    .btn-red:hover { transform: scale(1.05); box-shadow: 0 0 20px rgba(255,0,0,0.4); }
+
+    #terminal {
+        background: rgba(0,0,0,0.85);
+        font-size: 12px;
+        color: #ff0000;
+        padding: 15px;
+        border-radius: 10px;
+        height: 140px;
+        overflow-y: auto;
+        border: 1px solid #300;
+    }
+
+    .discord-container {
+        width: 100%;
+        height: 500px;
+        border-radius: 20px;
+        overflow: hidden;
+        border: 1px solid rgba(88, 101, 242, 0.2);
+    }
+
+    footer { background: #050505; border-top: 1px solid #111; }
+</style>
+
+</head>
+<body>
+<div class="bg-overlay"></div>
+
+<nav class="glass flex justify-between items-center">
+    <div class="display-font text-red-600 text-lg">NICOMINECITH</div>
+    <div class="hidden md:flex gap-6 text-[10px] uppercase font-bold tracking-widest">
+        <a href="#home" class="hover:text-red-500 transition">Home</a>
+        <a href="#news" class="hover:text-red-500 transition">News</a>
+        <a href="#discord" class="hover:text-red-500 transition">Discord</a>
+        <a href="#team" class="hover:text-red-500 transition">Team</a>
+        <a href="#training" class="hover:text-red-500 transition">Dojo</a>
+    </div>
+    <div class="text-[10px] text-red-500 font-bold border border-red-500/30 px-3 py-1 rounded md:hidden">MENU</div>
+</nav>
+
+<section id="home" class="min-h-screen flex flex-col items-center justify-center pt-24 px-6 text-center">
+    <div class="sharingan-eye mb-6">
+        <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+            <circle cx="100" cy="100" r="95" fill="#ff0000" stroke="#000" stroke-width="4" />
+            <circle cx="100" cy="100" r="65" fill="none" stroke="#000" stroke-width="1.5" opacity="0.4" />
+            <g transform="translate(100, 100)">
+                <g transform="rotate(0)"><path d="M 0,-65 C 15,-65 35,-45 35,-20 C 35,5 15,15 0,15 C -15,15 -35,5 -35,-20 C -35,-45 -15,-65 0,-65" fill="black" /></g>
+                <g transform="rotate(120)"><path d="M 0,-65 C 15,-65 35,-45 35,-20 C 35,5 15,15 0,15 C -15,15 -35,5 -35,-20 C -35,-45 -15,-65 0,-65" fill="black" /></g>
+                <g transform="rotate(240)"><path d="M 0,-65 C 15,-65 35,-45 35,-20 C 35,5 15,15 0,15 C -15,15 -35,5 -35,-20 C -35,-45 -15,-65 0,-65" fill="black" /></g>
+                <circle cx="0" cy="0" r="24" fill="black" />
+            </g>
+        </svg>
+    </div>
+    <h1 class="ninja-font text-5xl md:text-8xl mb-2">NICOMINECITH</h1>
+    <p class="marker-font text-red-600 text-xl md:text-3xl tracking-[0.2em] mb-12">ELITE SHINOBI CREW</p>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl w-full">
+        <div class="glass p-8">
+            <h3 class="display-font text-[10px] text-red-500 mb-4 text-left tracking-widest uppercase">System_Status: Online</h3>
+            <div id="terminal" class="mono-font text-left"></div>
+        </div>
+        <div class="glass p-8 flex flex-col justify-center text-left">
+            <p class="text-sm text-gray-400 mb-8 leading-relaxed italic">"Loyalität ist unser Kodex, Erfolg unsere Bestimmung. Willkommen im Zentrum der Nicominecith Crew."</p>
+            <div class="flex flex-wrap gap-4">
+                <a href="#discord" class="flex-1 btn-red py-4 rounded-xl font-black text-xs tracking-widest text-center uppercase">Join Headquarters</a>
+                <a href="#training" class="flex-1 border border-red-600/30 py-4 rounded-xl font-black text-xs tracking-widest text-center hover:bg-red-600/10 uppercase">Training Arena</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="news" class="py-24 px-6">
+    <div class="max-w-5xl mx-auto reveal">
+        <h2 class="ninja-font text-3xl text-red-600 mb-12 text-center">Crew News</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div class="glass p-6 border-l-4 border-red-600">
+                <p class="text-[10px] text-gray-500 mb-2">UPDATE // 25.02.2024</p>
+                <h4 class="font-bold text-lg mb-2 uppercase">Website Upgrade v2.5</h4>
+                <p class="text-xs text-gray-400">Discord-Integration und optimierte Grafiken wurden erfolgreich in das System eingespielt.</p>
+            </div>
+            <div class="glass p-6 border-l-4 border-gray-600">
+                <p class="text-[10px] text-gray-500 mb-2">ACHIEVEMENT // 22.02.2024</p>
+                <h4 class="font-bold text-lg mb-2 uppercase">Neue Crew-Mitglieder</h4>
+                <p class="text-xs text-gray-400">Unsere Reihen wachsen. Herzlich willkommen an alle neuen Shinobi im Netzwerk!</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="discord" class="py-24 px-6 bg-black/40">
+    <div class="max-w-5xl mx-auto reveal text-center">
+        <h2 class="ninja-font text-3xl text-red-600 mb-4 uppercase">Headquarters</h2>
+        <p class="text-gray-400 mb-12 text-sm max-w-xl mx-auto italic">Sieh dir live an, wer gerade im Hauptquartier aktiv ist und tritt der Konversation bei.</p>
+        
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+            <div class="lg:col-span-2 discord-container glass">
+                <iframe src="https://discord.com/widget?id=1325946892694388746&theme=dark" width="100%" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+            </div>
+            
+            <div class="space-y-6 text-left">
+                <div class="glass p-6 border-t-2 border-red-600">
+                    <h4 class="display-font text-[10px] text-red-500 mb-4 tracking-widest">SERVER INFO</h4>
+                    <ul class="text-xs space-y-3 text-gray-300">
+                        <li>• Voice Chats für Gaming</li>
+                        <li>• Exklusive Member-Ränge</li>
+                        <li>• Regelmäßige Crew-Events</li>
+                        <li>• Support-Bereich</li>
+                    </ul>
+                </div>
+                <a href="https://discord.gg/nicominecith" class="block w-full bg-[#5865F2] hover:bg-[#4752c4] py-4 rounded-xl font-black text-xs text-center uppercase tracking-widest transition shadow-lg">
+                    Server Beitreten
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="team" class="py-24 px-6">
+    <div class="max-w-5xl mx-auto reveal">
+        <h2 class="ninja-font text-3xl text-red-600 mb-12 text-center uppercase">Elite-Kommando</h2>
+        
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+            <div class="glass p-6 border-l-4 border-red-600 flex items-center gap-6">
+                <div class="w-16 h-16 bg-red-950 rounded-full flex items-center justify-center font-black text-2xl border-2 border-red-600">N</div>
+                <div>
+                    <p class="font-black text-xl uppercase tracking-tighter">Nicominecith_ttv</p>
+                    <span class="text-[9px] bg-red-600 text-white px-2 py-1 rounded font-bold uppercase tracking-widest">Commander</span>
+                </div>
+            </div>
+            <div class="glass p-6 border-l-4 border-gray-600 flex items-center gap-6">
+                <div class="w-16 h-16 bg-gray-900 rounded-full flex items-center justify-center font-black text-2xl border-2 border-gray-700">A</div>
+                <div>
+                    <p class="font-black text-xl uppercase tracking-tighter">Aether</p>
+                    <span class="text-[9px] bg-gray-700 text-white px-2 py-1 rounded font-bold uppercase tracking-widest">Co-Commander</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-4">
+            <div class="glass p-4 text-center">
+                <div class="w-10 h-10 bg-blue-900 rounded-full mx-auto mb-3 flex items-center justify-center font-bold text-xs">B</div>
+                <p class="text-[10px] font-bold uppercase">Benneno235</p>
+            </div>
+            <div class="glass p-4 text-center">
+                <div class="w-10 h-10 bg-green-900 rounded-full mx-auto mb-3 flex items-center justify-center font-bold text-xs">D</div>
+                <p class="text-[10px] font-bold uppercase">DinnerBown1</p>
+            </div>
+            <div class="glass p-4 text-center">
+                <div class="w-10 h-10 bg-orange-900 rounded-full mx-auto mb-3 flex items-center justify-center font-bold text-xs">D</div>
+                <p class="text-[10px] font-bold uppercase">danielefrz12</p>
+            </div>
+            <div class="glass p-4 text-center">
+                <div class="w-10 h-10 bg-purple-900 rounded-full mx-auto mb-3 flex items-center justify-center font-bold text-xs">A</div>
+                <p class="text-[10px] font-bold uppercase">Aaron</p>
+            </div>
+            <div class="glass p-4 text-center">
+                <div class="w-10 h-10 bg-pink-900 rounded-full mx-auto mb-3 flex items-center justify-center font-bold text-xs">H</div>
+                <p class="text-[10px] font-bold uppercase">Haru</p>
+            </div>
+            <div class="glass p-4 text-center">
+                <div class="w-10 h-10 bg-yellow-900 rounded-full mx-auto mb-3 flex items-center justify-center font-bold text-xs">P</div>
+                <p class="text-[10px] font-bold uppercase">PfifferYT</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="training" class="py-24 px-6 bg-black/20">
+    <div class="max-w-5xl mx-auto reveal">
+        <h2 class="ninja-font text-3xl text-red-600 mb-8 text-center uppercase">Reflex-Dojo</h2>
+        <div class="glass p-1 relative overflow-hidden">
+            <canvas id="gameCanvas" width="900" height="500" class="w-full h-auto bg-black rounded-xl cursor-crosshair"></canvas>
+            <div id="gameUI" class="absolute inset-0 bg-black/90 backdrop-blur-md flex flex-col items-center justify-center p-10">
+                <h3 class="ninja-font text-2xl mb-8 uppercase">Bereit zum Training?</h3>
+                <div class="flex gap-12 mb-10">
+                    <div class="text-center">
+                        <p class="text-[8px] text-gray-500 uppercase tracking-widest mb-1">Highscore</p>
+                        <p id="bestScore" class="marker-font text-3xl text-red-600">0</p>
+                    </div>
+                </div>
+                <button onclick="startTraining()" class="btn-red px-16 py-4 rounded-full font-black text-xs tracking-widest uppercase">Start Arena</button>
+            </div>
+            <div id="hud" class="absolute top-6 left-6 right-6 flex justify-between pointer-events-none opacity-0 transition-opacity">
+                <div class="glass px-6 py-2 border-red-500/20"><span class="display-font text-xs text-red-500">SCORE: <span id="score" class="text-white">0</span></span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="pt-20 pb-10 px-6">
+    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left border-b border-white/5 pb-12 mb-10">
+        <div>
+            <h4 class="display-font text-red-600 text-sm mb-6 uppercase">Nicominecith</h4>
+            <p class="text-[10px] text-gray-500 uppercase leading-loose tracking-widest">
+                Schmiede dein Schicksal. Werde Teil einer Gemeinschaft, die keine Grenzen kennt.
+            </p>
+        </div>
+        <div>
+            <h4 class="display-font text-white text-sm mb-6 uppercase">Credits</h4>
+            <p class="text-[10px] text-gray-400 mb-2 uppercase">Projektleitung: <span class="text-red-500 font-bold">Nicominecith</span></p>
+            <p class="text-[10px] text-gray-400 mb-2 uppercase">Design & Code: <span class="text-white font-bold">Shinobi AI</span></p>
+        </div>
+        <div>
+            <h4 class="display-font text-white text-sm mb-6 uppercase">Rechtliches</h4>
+            <div class="flex flex-col gap-2">
+                <button onclick="toggleModal('impressum')" class="text-[10px] text-gray-500 hover:text-red-500 text-left uppercase tracking-widest transition">Impressum</button>
+                <button onclick="toggleModal('datenschutz')" class="text-[10px] text-gray-500 hover:text-red-500 text-left uppercase tracking-widest transition">Datenschutz</button>
+            </div>
+        </div>
+    </div>
+    <p class="text-center text-[9px] text-gray-700 uppercase tracking-[0.5em]">&copy; 2024 NICOMINECITH CREW. ALL RIGHTS RESERVED.</p>
+</footer>
+
+<div id="modalImpressum" class="fixed inset-0 z-[3000] hidden flex items-center justify-center p-6 bg-black/90 backdrop-blur-md">
+    <div class="glass max-w-2xl w-full p-10 max-h-[80vh] overflow-y-auto">
+        <h2 class="ninja-font text-2xl text-red-600 mb-6 uppercase">Impressum</h2>
+        <div class="text-[11px] text-gray-400 space-y-4 font-light leading-relaxed uppercase tracking-wider">
+            <p class="font-bold text-white">Betreiber:</p>
+            <p>Nicominecith (Projektleitung)<br>Discord: Nicominecith_ttv</p>
+            <p class="font-bold text-white">Haftungsausschluss:</p>
+            <p>Diese Website dient als Community-Hub. Wir übernehmen keine Haftung für externe Links oder fremde Inhalte im Discord-Server.</p>
+            <p class="font-bold text-white">Urheberrecht:</p>
+            <p>Die Grafiken (z.B. Sharingan) sind Fan-Art und dienen illustrativen Zwecken der Community.</p>
+        </div>
+        <button onclick="toggleModal('impressum')" class="mt-8 text-red-500 font-bold text-[10px] uppercase tracking-widest border border-red-500/20 px-8 py-3 rounded-xl hover:bg-red-500/10 transition">Schließen</button>
+    </div>
+</div>
+
+<script>
+    const terminal = document.getElementById('terminal');
+    const logs = [
+        "> Init Sharingan_Protokoll...",
+        "> Connect: Nicominecith HQ",
+        "> Status: Authentifiziert",
+        "> Scanne Crew-Netzwerk...",
+        "> Discord Embed: Online",
+        "> Dojo bereit für Training.",
+        "> Willkommen, Shinobi."
+    ];
+    let logIdx = 0;
+    function addLog() {
+        if(logIdx < logs.length) {
+            const line = document.createElement('div');
+            line.className = "mb-1 opacity-0 transition-opacity duration-300";
+            line.innerText = logs[logIdx];
+            terminal.appendChild(line);
+            setTimeout(() => line.style.opacity = '1', 10);
+            terminal.scrollTop = terminal.scrollHeight;
+            logIdx++;
+            setTimeout(addLog, 1000);
+        }
+    }
+    addLog();
+
+    const canvas = document.getElementById('gameCanvas');
+    const ctx = canvas.getContext('2d');
+    const gameUI = document.getElementById('gameUI');
+    const hud = document.getElementById('hud');
+    let score = 0, high = localStorage.getItem('nicoHigh') || 0;
+    let active = false;
+    let player = { x: 450, y: 400, r: 12 };
+    let items = [];
+
+    document.getElementById('bestScore').innerText = high;
+
+    canvas.addEventListener('mousemove', e => {
+        const r = canvas.getBoundingClientRect();
+        player.x = (e.clientX - r.left) * (900 / r.width);
+        player.y = (e.clientY - r.top) * (500 / r.height);
+    });
+
+    function startTraining() {
+        gameUI.style.display = 'none';
+        hud.style.opacity = '1';
+        active = true; score = 0; items = [];
+        loop();
+    }
+
+    function loop() {
+        if(!active) return;
+        ctx.fillStyle = "rgba(0,0,0,0.2)";
+        ctx.fillRect(0,0,900,500);
+
+        ctx.fillStyle = "#ff0000";
+        ctx.shadowBlur = 15; ctx.shadowColor = "#ff0000";
+        ctx.beginPath(); ctx.arc(player.x, player.y, player.r, 0, Math.PI*2); ctx.fill();
+        ctx.shadowBlur = 0;
+
+        if(Math.random() < 0.05 + (score/2000)) {
+            items.push({ x: Math.random()*900, y: -20, v: 4 + Math.random()*4 + (score/100) });
+        }
+
+        for(let i=items.length-1; i>=0; i--) {
+            let it = items[i];
+            it.y += it.v;
+            ctx.fillStyle = "#fff";
+            ctx.fillRect(it.x-1, it.y-1, 3, 10);
+            if(Math.hypot(player.x - it.x, player.y - it.y) < 18) {
+                active = false; gameOver();
+            }
+            if(it.y > 520) { items.splice(i,1); score++; document.getElementById('score').innerText = score; }
+        }
+        requestAnimationFrame(loop);
+    }
+
+    function gameOver() {
+        gameUI.style.display = 'flex';
+        hud.style.opacity = '0';
+        if(score > high) {
+            high = score;
+            localStorage.setItem('nicoHigh', high);
+            document.getElementById('bestScore').innerText = high;
+        }
+    }
+
+    function toggleModal(id) {
+        const m = document.getElementById('modal' + id.charAt(0).toUpperCase() + id.slice(1));
+        m.classList.toggle('hidden');
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if(entry.isIntersecting) entry.target.classList.add('active');
+        });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
+      
