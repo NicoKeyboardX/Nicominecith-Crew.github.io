@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nicominecith | Ultimate Shinobi Hub</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Inline&family=Permanent+Marker&family=Shojumaru&family=Noto+Sans+JP:wght@300;400;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --nj-red: #ff0000;
+            --nj-red-glow: rgba(255, 0, 0, 0.6);
+            --glass-bg: rgba(10, 10, 10, 0.92);
+            --glass-border: rgba(255, 0, 0, 0.25);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+
+        body {
+            background-color: #020202;
+            color: #ffffff;
+            font-family: 'Noto Sans JP', sans-serif;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Typography */
+        .ninja-font { font-family: 'Shojumaru', cursive; }
+        .display-font { font-family: 'Bungee Inline', cursive; }
+        .marker-font { font-family: 'Permanent Marker', cursive; }
+        .mono-font { font-family: 'Fira Code', monospace; }
+
+        /* Aesthetics */
+        .bg-overlay {
+            position: fixed; inset: 0; z-index: -2;
+            background: 
+                radial-gradient(circle at 10% 20%, #1a0000 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, #0d0000 0%, transparent 40%),
+                #000;
+        }
+
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(25px);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+            transition: all 0.3s ease;
+        }
+        .glass:hover { border-color: var(--nj-red); box-shadow: 0 0 20px rgba(255, 0, 0, 0.15); }
+
+        /* Notification */
+        #notify-box {
+            position: fixed; top: 25px; right: 25px; z-index: 9999;
+            transform: translateX(150%);
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        #notify-box.active { transform: translateX(0); }
+
+        /* Navigation */
+        nav {
+            position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+            width: 92%; max-width: 1200px; z-index: 1000;
+            padding: 12px 24px;
+        }
+
+        .btn-neon {
+            background: transparent;
+            border: 1px solid var(--nj-red);
+            color: var(--nj-red);
+            padding: 8px 20px;
+            border-radius: 8px;
+            text-transform: uppercase;
+            font-weight: 900;
+            font-size: 10px;
+            letter-spacing: 2px;
+            transition: 0.3s;
+        }
+        .btn-neon:hover { background: var(--nj-red); color: white; box-shadow: 0 0 15px var(--nj-red-glow); }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ff0000, #440000);
+            color: white;
+            padding: 14px 32px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+            transition: 0.3s;
+        }
+        .btn-primary:hover { transform: translateY(-2px) scale(1.05); filter: brightness(1.2); }
+
+        /* Sharingan Animation */
+        .sharingan-logo {
+            width: 180px; height: 180px;
+            filter: drop-shadow(0 0 15px rgba(255, 0, 0, 0.4));
+            animation: rotateEye 30s linear infinite;
+        }
+        @keyframes rotateEye { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+        /* Progress Bar */
+        .progress-bar { height: 4px; background: #222; border-radius: 2px; cursor: pointer; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--nj-red); width: 0%; box-shadow: 0 0 10px var(--nj-red); transition: width 0.1s linear; }
+
+        /* Mobile Menu */
+        #mobile-nav {
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.98);
+            z-index: 2000; flex-direction: column; align-items: center; justify-content: center; gap: 2rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-overlay"></div>
+
+    <!-- Notifications -->
+    <div id="notify-box" class="glass px-6 py-4 flex items-center gap-4 border-l-4 border-l-red-600 min-w-[300px]">
+        <div class="text-red-600 text-xl" id="notify-icon">◈</div>
+        <div>
+            <p id="notify-head" class="display-font text-[9px] text-red-500 uppercase">System Status</p>
+            <p id="notify-body" class="text-xs text-gray-300 font-medium">Initialisierung...</p>
+        </div>
+    </div>
+
+    <!-- Nav -->
+    <nav class="glass flex justify-between items-center">
+        <div class="display-font text-red-600 text-2xl tracking-tighter">NICOMINECITH</div>
+        <div class="hidden md:flex items-center gap-8 text-[10px] font-black uppercase tracking-widest">
+            <a href="#home" class="hover:text-red-500 transition">Home</a>
+            <a href="#music" class="hover:text-red-500 transition">Musik</a>
+            <a href="#discord" class="hover:text-red-500 transition">Discord</a>
+            <a href="#dojo" class="hover:text-red-500 transition">Dojo</a>
+            <a href="partner.html" class="btn-neon">Partner</a>
+        </div>
+        <button onclick="toggleMenu(true)" class="md:hidden text-red-600 font-bold">MENU</button>
+    </nav>
+
+    <!-- Mobile Nav Overlay -->
+    <div id="mobile-nav" class="ninja-font text-3xl">
+        <a href="#home" onclick="toggleMenu(false)">HOME</a>
+        <a href="#music" onclick="toggleMenu(false)">MUSIC</a>
+        <a href="#discord" onclick="toggleMenu(false)">DISCORD</a>
+        <a href="#dojo" onclick="toggleMenu(false)">DOJO</a>
+        <a href="partner.html" onclick="toggleMenu(false)" class="text-red-600">PARTNER</a>
+        <button onclick="toggleMenu(false)" class="mt-12 text-sm font-sans text-gray-500">BACK [X]</button>
+    </div>
+
+    <!-- Hero -->
+    <section id="home" class="min-h-screen flex flex-col items-center justify-center p-6 text-center">
+        <div class="sharingan-logo mb-10">
+            <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="100" cy="100" r="95" fill="#ff0000" stroke="#000" stroke-width="4" />
+                <g transform="translate(100, 100)">
+                    <circle cx="0" cy="0" r="25" fill="black" />
+                    <g transform="rotate(0)"><path d="M 0,-60 C 20,-60 40,-40 40,-20 C 40,0 20,10 0,10 C -20,10 -40,0 -40,-20 C -40,-40 -20,-60 0,-60" fill="black" /></g>
+                    <g transform="rotate(120)"><path d="M 0,-60 C 20,-60 40,-40 40,-20 C 40,0 20,10 0,10 C -20,10 -40,0 -40,-20 C -40,-40 -20,-60 0,-60" fill="black" /></g>
+                    <g transform="rotate(240)"><path d="M 0,-60 C 20,-60 40,-40 40,-20 C 40,0 20,10 0,10 C -20,10 -40,0 -40,-20 C -40,-40 -20,-60 0,-60" fill="black" /></g>
+                </g>
+            </svg>
+        </div>
+        <h1 class="ninja-font text-6xl md:text-9xl mb-4 text-white drop-shadow-lg">NICOMINECITH</h1>
+        <p class="display-font text-red-600 text-lg md:text-xl mb-12 uppercase tracking-[0.4em]">Shadow Syndicate</p>
+        
+        <div class="max-w-4xl w-full grid grid-cols-1 md:grid-cols-2 gap-8 px-4">
+            <div class="glass p-8 text-left border-l-4 border-red-600">
+                <h3 class="display-font text-red-500 text-[9px] mb-4">SYSTEM_LOGS</h3>
+                <div id="console-logs" class="mono-font text-[10px] text-red-400/80 h-24 overflow-hidden leading-relaxed"></div>
+            </div>
+            <div class="flex flex-col gap-4">
+                <a href="partner.html" class="btn-primary text-center">Partner Directory</a>
+                <a href="#dojo" class="glass py-4 text-center font-black text-[10px] uppercase tracking-widest hover:bg-white/5">Enter Dojo</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Player -->
+    <section id="music" class="py-24 px-6 bg-black/40">
+        <div class="max-w-3xl mx-auto">
+            <h2 class="ninja-font text-3xl text-red-600 mb-12 text-center uppercase">Audio Control</h2>
+            <div class="glass p-10 flex flex-col gap-10 shadow-2xl border-t-4 border-t-red-600">
+                <div class="flex flex-col md:flex-row items-center gap-10">
+                    <div id="player-disc" class="w-40 h-40 rounded-full bg-neutral-900 border-4 border-red-600 flex items-center justify-center relative shadow-[0_0_30px_rgba(255,0,0,0.2)]">
+                        <div class="w-10 h-10 rounded-full bg-black border-4 border-red-950 z-10"></div>
+                        <div class="absolute inset-0 opacity-10 bg-[conic-gradient(#fff,#000,#fff)] rounded-full"></div>
+                    </div>
+                    <div class="text-center md:text-left">
+                        <h4 id="active-title" class="display-font text-red-500 text-lg mb-2">Bereit</h4>
+                        <p id="active-info" class="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Warte auf Audio-Einspeisung...</p>
+                        <div class="mt-6 flex justify-center md:justify-start gap-12 text-2xl">
+                            <button onclick="changeTrack(-1)" class="hover:text-red-500 transition">⏮</button>
+                            <button onclick="toggleAudio()" id="play-btn" class="w-14 h-14 bg-red-600 rounded-full flex items-center justify-center text-black shadow-lg hover:scale-110 active:scale-95 transition">▶</button>
+                            <button onclick="changeTrack(1)" class="hover:text-red-500 transition">⏭</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="progress-bar" id="seek-bar">
+                        <div class="progress-fill" id="fill-bar"></div>
+                    </div>
+                    <div class="flex justify-between text-[10px] font-black text-gray-600 uppercase">
+                        <span id="time-cur">0:00</span>
+                        <span id="time-dur">0:00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Discord -->
+    <section id="discord" class="py-24 px-6">
+        <div class="max-w-5xl mx-auto">
+            <h2 class="ninja-font text-3xl text-red-600 mb-12 text-center uppercase">Discord Server</h2>
+            <div class="glass h-[550px] overflow-hidden border-2 border-red-900/20">
+                <iframe src="https://discord.com/widget?id=1302663524568272999&theme=dark" width="100%" height="100%" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dojo -->
+    <section id="dojo" class="py-24 px-6 mb-20">
+        <div class="max-w-4xl mx-auto">
+            <h2 class="ninja-font text-3xl text-red-600 mb-4 text-center uppercase">Reflex Dojo</h2>
+            <p class="text-center text-[10px] text-gray-500 uppercase tracking-widest mb-12">Meistere die Shuriken-Abwehr</p>
+            
+            <div class="glass p-2 relative bg-[#050505] aspect-video overflow-hidden border-2 border-red-900/40 shadow-2xl">
+                <canvas id="game-canvas" width="800" height="450" class="w-full h-full cursor-none"></canvas>
+                <div id="game-overlay" class="absolute inset-0 bg-black/90 flex flex-col items-center justify-center z-20">
+                    <p class="display-font text-[10px] text-red-500 mb-2">Highscore</p>
+                    <p id="high-score" class="marker-font text-7xl text-white mb-10">0</p>
+                    <button onclick="startGame()" class="btn-primary">Klingen-Tanz Starten</button>
+                </div>
+                <div id="game-hud" class="absolute top-4 left-6 font-black text-red-500 text-xs opacity-0">
+                    <span class="opacity-50">SCORE:</span> <span id="cur-score" class="text-white text-lg ml-2">0</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-16 text-center border-t border-white/5 opacity-40">
+        <div class="display-font text-red-600 text-xl mb-4">NICOMINECITH</div>
+        <p class="text-[9px] uppercase tracking-[1em] font-bold">Verschlüsseltes Portal &copy; 2024</p>
+    </footer>
+
+    <audio id="audio-engine"></audio>
+
+    <script>
+        // --- System Logic ---
+        const audio = document.getElementById('audio-engine');
+        const tracks = [
+            { name: "Schattenläufer", file: "track1.mp3" },
+            { name: "Ninja-Core", file: "track2.mp3" },
+            { name: "Ronin Mood", file: "track3.mp3" }
+        ];
+        let currentTrack = 0;
+
+        function notify(msg, type = "info") {
+            const box = document.getElementById('notify-box');
+            const head = document.getElementById('notify-head');
+            const body = document.getElementById('notify-body');
+            const icon = document.getElementById('notify-icon');
+
+            head.innerText = type === "error" ? "System Error" : "Audio Update";
+            head.style.color = type === "error" ? "#ff4444" : "#ff0000";
+            body.innerText = msg;
+            icon.innerText = type === "error" ? "⚠" : "◈";
+
+            box.classList.add('active');
+            setTimeout(() => box.classList.remove('active'), 4000);
+        }
+
+        function loadTrack() {
+            const t = tracks[currentTrack];
+            audio.src = t.file;
+            document.getElementById('active-title').innerText = t.name;
+            document.getElementById('active-info').innerText = "Shinobi-Frequenz: " + t.file;
+        }
+
+        function toggleAudio() {
+            const btn = document.getElementById('play-btn');
+            const disc = document.getElementById('player-disc');
+
+            if (audio.paused) {
+                audio.play().then(() => {
+                    btn.innerText = "⏸";
+                    disc.style.animation = "rotateEye 4s linear infinite";
+                    notify("Transmission gestartet: " + tracks[currentTrack].name);
+                }).catch(() => {
+                    notify("Datei " + tracks[currentTrack].file + " nicht im Verzeichnis!", "error");
+                });
+            } else {
+                audio.pause();
+                btn.innerText = "▶";
+                disc.style.animation = "none";
+                notify("Transmission unterbrochen.");
+            }
+        }
+
+        function changeTrack(dir) {
+            currentTrack = (currentTrack + dir + tracks.length) % tracks.length;
+            loadTrack();
+            if (!audio.paused) {
+                audio.play().then(() => notify("Track gewechselt: " + tracks[currentTrack].name))
+                .catch(() => notify("Datei fehlt!", "error"));
+            }
+        }
+
+        audio.addEventListener('timeupdate', () => {
+            const pc = (audio.currentTime / audio.duration) * 100 || 0;
+            document.getElementById('fill-bar').style.width = pc + "%";
+            
+            const fmt = (t) => {
+                const m = Math.floor(t / 60) || 0;
+                const s = Math.floor(t % 60) || 0;
+                return `${m}:${s < 10 ? '0' : ''}${s}`;
+            }
+            document.getElementById('time-cur').innerText = fmt(audio.currentTime);
+            document.getElementById('time-dur').innerText = fmt(audio.duration);
+        });
+
+        document.getElementById('seek-bar').onclick = (e) => {
+            const r = e.currentTarget.getBoundingClientRect();
+            audio.currentTime = ((e.clientX - r.left) / r.width) * audio.duration;
+        };
+
+        // --- Dojo Game Logic (Fixed & Enhanced) ---
+        const canvas = document.getElementById('game-canvas');
+        const ctx = canvas.getContext('2d');
+        let gameActive = false, score = 0, high = 0, player = {x:400, y:380}, objects = [];
+
+        canvas.addEventListener('mousemove', e => {
+            const r = canvas.getBoundingClientRect();
+            player.x = (e.clientX - r.left) * (800 / r.width);
+            player.y = (e.clientY - r.top) * (450 / r.height);
+        });
+
+        // Touch
+        canvas.addEventListener('touchmove', e => {
+            e.preventDefault();
+            const r = canvas.getBoundingClientRect();
+            player.x = (e.touches[0].clientX - r.left) * (800 / r.width);
+            player.y = (e.touches[0].clientY - r.top) * (450 / r.height);
+        }, {passive: false});
+
+        function startGame() {
+            document.getElementById('game-overlay').style.display = 'none';
+            document.getElementById('game-hud').style.opacity = '1';
+            gameActive = true; score = 0; objects = []; gameLoop();
+        }
+
+        function drawShuriken(x, y, r, rotation) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(rotation);
+            ctx.fillStyle = "#fff";
+            ctx.shadowBlur = 10; ctx.shadowColor = "white";
+            for(let i=0; i<4; i++) {
+                ctx.rotate(Math.PI/2);
+                ctx.beginPath();
+                ctx.moveTo(0, -r);
+                ctx.lineTo(r/4, 0);
+                ctx.lineTo(0, r/4);
+                ctx.fill();
+            }
+            ctx.restore();
+        }
+
+        function gameLoop() {
+            if(!gameActive) return;
+            
+            // Background Fade (Motion Blur)
+            ctx.fillStyle = "rgba(2, 2, 2, 0.4)";
+            ctx.fillRect(0,0,800,450);
+
+            // Draw Player
+            ctx.shadowBlur = 20; ctx.shadowColor = "red";
+            ctx.fillStyle = "red";
+            ctx.beginPath(); ctx.arc(player.x, player.y, 10, 0, Math.PI*2); ctx.fill();
+            ctx.shadowBlur = 0;
+
+            // Spawn
+            if(Math.random() < 0.08 + (score/1500)) {
+                objects.push({x: Math.random()*800, y: -20, s: 5 + Math.random()*5, rot: 0});
+            }
+
+            for(let i=objects.length-1; i>=0; i--) {
+                const o = objects[i];
+                o.y += o.s;
+                o.rot += 0.2;
+                drawShuriken(o.x, o.y, 12, o.rot);
+
+                // Collision Detection
+                const dist = Math.hypot(player.x - o.x, player.y - o.y);
+                if(dist < 22) {
+                    gameActive = false;
+                    document.getElementById('game-overlay').style.display = 'flex';
+                    document.getElementById('game-hud').style.opacity = '0';
+                    if(score > high) { high = score; document.getElementById('high-score').innerText = high; }
+                    notify("Gefallen im Dojo! Score: " + score, "error");
+                }
+
+                if(o.y > 470) { objects.splice(i,1); score++; document.getElementById('cur-score').innerText = score; }
+            }
+            requestAnimationFrame(gameLoop);
+        }
+
+        // --- UI Utils ---
+        function toggleMenu(s) { document.getElementById('mobile-nav').style.display = s ? 'flex' : 'none'; }
+        
+        const logger = document.getElementById('console-logs');
+        const script = ["> Synchronisiere Neural-Netz...", "> Lade Shuriken-Vektor...", "> Discord-Link etabliert...", "> Partner-API geladen...", "> System bereit."];
+        let sIdx = 0;
+        const iS = setInterval(() => {
+            if(sIdx < script.length) {
+                const p = document.createElement('p'); p.innerText = script[sIdx++];
+                logger.appendChild(p);
+            } else clearInterval(iS);
+        }, 700);
+
+        window.onload = loadTrack;
+    </script>
+</body>
+</html>
+
