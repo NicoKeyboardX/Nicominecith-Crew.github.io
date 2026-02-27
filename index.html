@@ -1,1 +1,41 @@
-<!DOCTYPE html>\n<html lang='en'>\n<head>\n    <meta charset='UTF-8'>\n    <meta name='viewport' content='width=device-width, initial-scale=1.0'>\n    <title>Nico's Crew</title>\n    <style>\n        body {\n            font-family: Arial, sans-serif;\n            background-color: #000;\n            color: #fff;\n        }\n        .team-section {\n            padding: 20px;\n            text-align: center;\n        }\n        .music-player {\n            background: rgba(255, 0, 0, 0.6);  /* Glassmorphism effect */\n            border-radius: 15px;\n            padding: 20px;\n            margin-top: 20px;\n            box-shadow: 0 0 10px rgba(255, 0, 0, 0.8), 0 0 20px rgba(255, 0, 0, 0.5);\n        }\n        .music-player audio {\n            width: 100%;\n            border-radius: 10px;\n        }\n    </style>\n</head>\n<body>\n    <div class='team-section'>\n        <h1>Meet the Team</h1>\n        <!-- Team member details would go here -->\n        <div class='music-player'>\n            <p>Enjoy our background music!</p>\n            <audio controls autoplay loop>\n                <source src='audio.mp3' type='audio/mp3'>\n                <source src='audio2.mp3' type='audio/mp3'>\n                <source src='audio3.mp3' type='audio/mp3'>\n                <source src='audio4.mp3' type='audio/mp3'>\n                <source src='audio5.mp3' type='audio/mp3'>\n                Your browser does not support the audio tag.\n            </audio>\n        </div>\n    </div>\n</body>\n</html>\n
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NicoMinnecith Crew</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#discord">Discord</a></li>
+            <li><a href="#dojo">Dojo Game</a></li>
+            <li><a href="#footer">Footer</a></li>
+        </ul>
+    </nav>
+
+    <section id="hero">
+        <h1>Welcome to the NicoMinnecith Crew</h1>
+        <p>Your adventure starts here!</p>
+    </section>
+
+    <section id="discord">
+        <h2>Join our Discord</h2>
+        <p>Connect with us and other players.</p>
+        <a href="https://discord.gg/example">Join Here</a>
+    </section>
+
+    <section id="dojo">
+        <h2>Training Dojo Game</h2>
+        <p>Improve your skills with our interactive training game!</p>
+        <button id="startGame">Start Game</button>
+    </section>
+
+    <footer id="footer">
+        <p>&copy; 2026 NicoMinnecith Crew. All rights reserved.</p>
+    </footer>
+</body>
+</html>
