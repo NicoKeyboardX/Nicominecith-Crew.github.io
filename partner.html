@@ -79,6 +79,26 @@
             transform: scale(1.05);
         }
 
+        .btn-action {
+            display: inline-block;
+            background: transparent;
+            border: 1px solid var(--nj-red);
+            color: var(--nj-red);
+            padding: 8px 20px;
+            border-radius: 8px;
+            font-weight: 900;
+            text-transform: uppercase;
+            font-size: 10px;
+            letter-spacing: 1px;
+            transition: 0.3s;
+            text-decoration: none;
+        }
+        .btn-action:hover {
+            background: var(--nj-red);
+            color: white;
+            box-shadow: 0 0 15px var(--nj-red-glow);
+        }
+
         .btn-discord {
             background: linear-gradient(135deg, #ff0000, #440000);
             color: white;
@@ -97,13 +117,6 @@
             box-shadow: 0 0 20px var(--nj-red-glow);
         }
 
-        /* Animationen */
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-title { animation: fadeInDown 0.8s ease-out forwards; }
-
         .partner-img {
             width: 80px; height: 80px;
             border-radius: 50%;
@@ -111,6 +124,16 @@
             object-fit: cover;
             box-shadow: 0 0 15px rgba(255,0,0,0.3);
             margin-bottom: 2rem;
+        }
+
+        .icon-box {
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            border: 2px solid var(--nj-red);
+            display: flex; align-items: center; justify-content: center;
+            background: #111;
+            margin-bottom: 2rem;
+            font-size: 32px;
         }
     </style>
 </head>
@@ -126,9 +149,9 @@
     <section class="min-h-screen flex flex-col items-center pt-32 pb-24 px-6 max-w-7xl mx-auto">
         
         <!-- Header -->
-        <div class="text-center mb-24 animate-title">
+        <div class="text-center mb-24">
             <h1 class="ninja-font text-5xl md:text-8xl text-red-600 mb-6 drop-shadow-[0_0_15px_rgba(255,0,0,0.5)]">PARTNER</h1>
-            <p class="display-font text-gray-400 text-xs md:text-sm tracking-[0.6em] uppercase">Das Shinobi-Netzwerk</p>
+            <p class="display-font text-gray-400 text-xs md:text-sm tracking-[0.6em] uppercase">Shinobi Allianz</p>
             <div class="w-24 h-1 bg-red-600 mx-auto mt-8 shadow-[0_0_10px_#ff0000]"></div>
         </div>
 
@@ -140,60 +163,57 @@
                 <img src="https://cdn.discordapp.com/icons/1203478050772090880/16cc93e55386e836704bac5c42743d9d.png" alt="ISH Logo" class="partner-img">
                 <h3 class="display-font text-red-500 text-xl mb-3">ISH | Werbeserver</h3>
                 <p class="text-xs text-gray-500 mb-8 leading-relaxed font-medium uppercase tracking-wider">
-                    Die zentrale Anlaufstelle für Werbung und Netzwerkwachstum. Ein essentieller Knotenpunkt im System.
+                    Das primäre Zentrum für Reichweite und Vernetzung. Dein Gateway für effektive Promotion.
                 </p>
                 <div class="mt-auto">
-                    <a href="https://discord.gg/your-invite-link" class="text-[9px] font-black text-red-600 border border-red-600/30 px-6 py-2 rounded uppercase tracking-widest hover:bg-red-600 hover:text-white transition">Besuchen</a>
+                    <a href="https://discord.gg/eXsTmZ6jw" target="_blank" class="btn-action">Server Beitreten</a>
                 </div>
             </div>
 
             <!-- Partner 2 -->
             <div class="glass p-10 flex flex-col items-center text-center">
-                <div class="w-20 h-20 rounded-full border-2 border-red-600 flex items-center justify-center mb-8 bg-neutral-900 shadow-[0_0_15px_rgba(255,0,0,0.2)]">
-                    <span class="text-3xl">🏮</span>
-                </div>
-                <h3 class="display-font text-red-500 text-xl mb-3">Dojo Arts</h3>
+                <div class="icon-box">🏮</div>
+                <h3 class="display-font text-red-500 text-xl mb-3">Dojo Vision</h3>
                 <p class="text-xs text-gray-500 mb-8 leading-relaxed font-medium uppercase tracking-wider">
-                    Meister der visuellen Täuschung und des Interface-Designs. Verantwortlich für die Ästhetik des Hubs.
+                    Experten für digitale Ästhetik und Interface-Technologien im Schatten-Sektor.
                 </p>
                 <div class="mt-auto">
-                    <div class="text-[9px] font-black text-red-600 border border-red-600/30 px-6 py-2 rounded uppercase tracking-widest opacity-50">Verifiziert</div>
+                    <a href="#" class="btn-action">Details</a>
                 </div>
             </div>
 
             <!-- Partner 3 -->
             <div class="glass p-10 flex flex-col items-center text-center">
-                <div class="w-20 h-20 rounded-full border-2 border-red-600 flex items-center justify-center mb-8 bg-neutral-900 shadow-[0_0_15px_rgba(255,0,0,0.2)]">
-                    <span class="text-3xl">⚔️</span>
-                </div>
-                <h3 class="display-font text-red-500 text-xl mb-3">Klingen-Netz</h3>
+                <div class="icon-box">⚔️</div>
+                <h3 class="display-font text-red-500 text-xl mb-3">Ronin Net</h3>
                 <p class="text-xs text-gray-500 mb-8 leading-relaxed font-medium uppercase tracking-wider">
-                    Provider für unaufspürbare Server-Infrastrukturen und verschlüsselte Datenströme.
+                    Verschlüsselte Infrastruktur für unabhängige Operationen und globale Konnektivität.
                 </p>
                 <div class="mt-auto">
-                    <div class="text-[9px] font-black text-red-600 border border-red-600/30 px-6 py-2 rounded uppercase tracking-widest opacity-50">Gesichert</div>
+                    <a href="#" class="btn-action">Ansehen</a>
                 </div>
             </div>
 
         </div>
 
-        <!-- Discord Info Section -->
+        <!-- Call to Action Section -->
         <div class="w-full max-w-4xl">
             <div class="glass p-12 relative overflow-hidden text-center border-t-4 border-t-red-600">
-                <h2 class="display-font text-red-500 text-2xl mb-8">Eintragung anfordern</h2>
+                <h2 class="display-font text-red-500 text-2xl mb-8">Eigene Partnerschaft</h2>
                 
                 <div class="bg-red-600/5 border border-red-600/20 rounded-2xl p-10 mb-12">
-                    <p class="text-[11px] text-red-500 font-black uppercase tracking-[0.3em] mb-4">Partner Server: ISH | Werbeserver</p>
-                    <div class="w-full h-[400px] rounded-xl overflow-hidden mb-6">
-                        <iframe src="https://discord.com/widget?id=1203478050772090880&theme=dark" width="100%" height="100%" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
-                    </div>
+                    <p class="text-[11px] text-red-500 font-black uppercase tracking-[0.3em] mb-4">Protokoll-Hinweis</p>
                     <p class="text-sm text-gray-300 leading-relaxed max-w-2xl mx-auto">
-                        Partnerschaftsanfragen werden ausschließlich über unser gesichertes Kommunikationszentrum abgewickelt. Melde dich auf dem Server.
+                        Möchtest du Teil unserer Allianz werden? Wir verwalten alle Kooperationen über unser gesichertes Discord-Zentrum.
                     </p>
                 </div>
 
+                <p class="text-[10px] text-gray-500 mb-10 uppercase tracking-[0.4em]">
+                    Klicke unten, um zum Discord auf der Hauptseite zu gelangen.
+                </p>
+
                 <a href="index.html#discord" class="btn-discord">
-                    Zurück zum Hauptserver
+                    Partner werden via Discord
                 </a>
             </div>
         </div>
