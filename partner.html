@@ -25,12 +25,12 @@
             overflow-x: hidden;
         }
 
-        /* Typography */
+        /* Typografie */
         .ninja-font { font-family: 'Shojumaru', cursive; }
         .display-font { font-family: 'Bungee Inline', cursive; }
         .mono-font { font-family: 'Fira Code', monospace; }
 
-        /* Background */
+        /* Hintergrund */
         .bg-overlay {
             position: fixed; inset: 0; z-index: -2;
             background: 
@@ -39,7 +39,7 @@
                 #000;
         }
 
-        /* Glass Effect */
+        /* Glass Effekt */
         .glass {
             background: var(--glass-bg);
             backdrop-filter: blur(25px);
@@ -97,12 +97,21 @@
             box-shadow: 0 0 20px var(--nj-red-glow);
         }
 
-        /* Animations */
+        /* Animationen */
         @keyframes fadeInDown {
             from { opacity: 0; transform: translateY(-30px); }
             to { opacity: 1; transform: translateY(0); }
         }
         .animate-title { animation: fadeInDown 0.8s ease-out forwards; }
+
+        .partner-img {
+            width: 80px; height: 80px;
+            border-radius: 50%;
+            border: 2px solid var(--nj-red);
+            object-fit: cover;
+            box-shadow: 0 0 15px rgba(255,0,0,0.3);
+            margin-bottom: 2rem;
+        }
     </style>
 </head>
 <body>
@@ -126,17 +135,15 @@
         <!-- Partner Grid -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-10 w-full mb-32">
             
-            <!-- Partner 1 -->
+            <!-- Slot 1: ISH | Werbeserver -->
             <div class="glass p-10 flex flex-col items-center text-center">
-                <div class="w-20 h-20 rounded-full border-2 border-red-600 flex items-center justify-center mb-8 bg-neutral-900 shadow-[0_0_15px_rgba(255,0,0,0.2)]">
-                    <span class="text-3xl">👤</span>
-                </div>
-                <h3 class="display-font text-red-500 text-xl mb-3">Prime Shinobi</h3>
+                <img src="https://cdn.discordapp.com/icons/1203478050772090880/16cc93e55386e836704bac5c42743d9d.png" alt="ISH Logo" class="partner-img">
+                <h3 class="display-font text-red-500 text-xl mb-3">ISH | Werbeserver</h3>
                 <p class="text-xs text-gray-500 mb-8 leading-relaxed font-medium uppercase tracking-wider">
-                    Spezialist für digitale Infiltration und Netzwerk-Sicherheit. Ein Gründungsmitglied der Allianz.
+                    Die zentrale Anlaufstelle für Werbung und Netzwerkwachstum. Ein essentieller Knotenpunkt im System.
                 </p>
                 <div class="mt-auto">
-                    <div class="text-[9px] font-black text-red-600 border border-red-600/30 px-6 py-2 rounded uppercase tracking-widest opacity-50">Aktiviert</div>
+                    <a href="https://discord.gg/your-invite-link" class="text-[9px] font-black text-red-600 border border-red-600/30 px-6 py-2 rounded uppercase tracking-widest hover:bg-red-600 hover:text-white transition">Besuchen</a>
                 </div>
             </div>
 
@@ -176,18 +183,17 @@
                 <h2 class="display-font text-red-500 text-2xl mb-8">Eintragung anfordern</h2>
                 
                 <div class="bg-red-600/5 border border-red-600/20 rounded-2xl p-10 mb-12">
-                    <p class="text-[11px] text-red-500 font-black uppercase tracking-[0.3em] mb-4">Wichtige Instruktion</p>
+                    <p class="text-[11px] text-red-500 font-black uppercase tracking-[0.3em] mb-4">Partner Server: ISH | Werbeserver</p>
+                    <div class="w-full h-[400px] rounded-xl overflow-hidden mb-6">
+                        <iframe src="https://discord.com/widget?id=1203478050772090880&theme=dark" width="100%" height="100%" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+                    </div>
                     <p class="text-sm text-gray-300 leading-relaxed max-w-2xl mx-auto">
-                        Um die Integrität unseres Syndikats zu wahren, werden Partner-Anfragen ausschließlich über unser gesichertes Kommunikationszentrum auf **Discord** abgewickelt.
+                        Partnerschaftsanfragen werden ausschließlich über unser gesichertes Kommunikationszentrum abgewickelt. Melde dich auf dem Server.
                     </p>
                 </div>
 
-                <p class="text-[10px] text-gray-500 mb-10 uppercase tracking-[0.4em]">
-                    Melde dich im Bereich "Partnerschaft" auf unserem Server.
-                </p>
-
                 <a href="index.html#discord" class="btn-discord">
-                    Anfrage via Discord senden
+                    Zurück zum Hauptserver
                 </a>
             </div>
         </div>
