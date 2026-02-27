@@ -3,39 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NicoMinnecith Crew</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
+    <title>Stylish Music Player</title>
+    <style>
+        body {
+            background-color: #2c2c2c;
+            color: #ffffff;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        .music-player {
+            margin: 20px auto;
+            padding: 20px;
+            border: 2px solid #ffffff;
+            border-radius: 10px;
+            background-color: #3c3c3c;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+        }
+        audio {
+            width: 100%;
+            appearance: none;
+            background: #4c4c4c;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
-    <nav>
-        <ul>
-            <li><a href="#hero">Home</a></li>
-            <li><a href="#discord">Discord</a></li>
-            <li><a href="#dojo">Dojo Game</a></li>
-            <li><a href="#footer">Footer</a></li>
-        </ul>
-    </nav>
-
-    <section id="hero">
-        <h1>Welcome to the NicoMinnecith Crew</h1>
-        <p>Your adventure starts here!</p>
-    </section>
-
-    <section id="discord">
-        <h2>Join our Discord</h2>
-        <p>Connect with us and other players.</p>
-        <a href="https://discord.gg/example">Join Here</a>
-    </section>
-
-    <section id="dojo">
-        <h2>Training Dojo Game</h2>
-        <p>Improve your skills with our interactive training game!</p>
-        <button id="startGame">Start Game</button>
-    </section>
-
-    <footer id="footer">
-        <p>&copy; 2026 NicoMinnecith Crew. All rights reserved.</p>
-    </footer>
+    <h1>Ninja/Shinobi Music Player</h1>
+    <div class="music-player">
+        <h2>Enjoy the music!</h2>
+        <audio controls autoplay loop>
+            <source src="audio.mp3" type="audio/mpeg">
+            <source src="audio2.mp3" type="audio/mpeg">
+            <source src="audio3.mp3" type="audio/mpeg">
+            <source src="audio4.mp3" type="audio/mpeg">
+            <source src="audio5.mp3" type="audio/mpeg">
+            Your browser does not support the audio tag.
+        </audio>
+    </div>
 </body>
 </html>
