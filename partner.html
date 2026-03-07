@@ -2,229 +2,409 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nicominecith | Partner Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Partner Portal | Discord Network</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Bungee+Inline&family=Permanent+Marker&family=Shojumaru&family=Noto+Sans+JP:wght@300;400;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bungee+Inline&family=Shojumaru&family=Noto+Sans+JP:wght@300;400;700;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
     
     <style>
         :root {
             --nj-red: #ff0000;
+            --nj-red-dark: #8b0000;
             --nj-red-glow: rgba(255, 0, 0, 0.6);
-            --glass-bg: rgba(10, 10, 10, 0.92);
-            --glass-border: rgba(255, 0, 0, 0.25);
+            --glass-bg: rgba(10, 10, 12, 0.95);
+            --glass-border: rgba(255, 0, 0, 0.2);
+            --discord-blurple: #5865F2;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        /* Kopierschutz & Selektionssperre */
+        * {
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+        }
 
         body {
-            background-color: #020202;
-            color: #ffffff;
+            background-color: #050505;
+            color: #e0e0e0;
             font-family: 'Noto Sans JP', sans-serif;
             overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: pan-y;
+            margin: 0;
         }
 
-        /* Typografie */
-        .ninja-font { font-family: 'Shojumaru', cursive; }
+        .header-font { font-family: 'Shojumaru', cursive; }
         .display-font { font-family: 'Bungee Inline', cursive; }
-        .mono-font { font-family: 'Fira Code', monospace; }
 
-        /* Hintergrund */
         .bg-overlay {
             position: fixed; inset: 0; z-index: -2;
-            background: 
-                radial-gradient(circle at 10% 20%, #1a0000 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, #0d0000 0%, transparent 40%),
-                #000;
+            background: radial-gradient(circle at 50% 50%, #150000 0%, #000 100%);
         }
 
-        /* Glass Effekt */
-        .glass {
-            background: var(--glass-bg);
-            backdrop-filter: blur(25px);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        .glass:hover { 
-            border-color: var(--nj-red); 
-            box-shadow: 0 0 25px rgba(255, 0, 0, 0.2);
-            transform: translateY(-5px);
+        /* Slider Engine */
+        .slider-wrapper {
+            position: relative;
+            width: 100%;
+            padding: 20px 0;
         }
 
-        /* Buttons */
-        .btn-back {
-            position: fixed; top: 25px; left: 25px; z-index: 1000;
-            background: var(--glass-bg);
-            border: 1px solid var(--nj-red);
-            color: var(--nj-red);
-            padding: 12px 24px;
-            border-radius: 12px;
-            text-transform: uppercase;
-            font-weight: 900;
-            font-size: 11px;
-            letter-spacing: 2px;
+        .partner-slider-container {
             display: flex;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            scroll-snap-type: x mandatory;
+            gap: 1.5rem;
+            padding: 20px 5%;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .partner-slider-container::-webkit-scrollbar { display: none; }
+
+        .partner-card {
+            flex: 0 0 85%;
+            scroll-snap-align: center;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2.5rem 2rem;
+            display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 10px;
-            transition: 0.3s;
-            text-decoration: none;
-        }
-        .btn-back:hover { 
-            background: var(--nj-red); 
-            color: white; 
-            box-shadow: 0 0 20px var(--nj-red-glow);
-            transform: scale(1.05);
+            text-align: center;
+            transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
         }
 
-        .btn-action {
-            display: inline-block;
-            background: transparent;
-            border: 1px solid var(--nj-red);
+        @media (min-width: 640px) {
+            .partner-card { flex: 0 0 360px; scroll-snap-align: start; }
+        }
+
+        @media (min-width: 1024px) {
+            .partner-card:hover {
+                border-color: var(--nj-red);
+                transform: translateY(-10px);
+                box-shadow: 0 15px 40px rgba(255, 0, 0, 0.2);
+            }
+        }
+
+        /* Suchfeld */
+        .search-wrapper {
+            max-width: 600px;
+            margin: 0 auto 4rem;
+            position: relative;
+            padding: 0 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            background: rgba(20, 20, 22, 0.8);
+            border: 1px solid rgba(255, 0, 0, 0.2);
+            border-radius: 16px;
+            padding: 16px 20px 16px 50px;
+            color: white;
+            font-size: 1rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--nj-red);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 35px;
+            top: 50%;
+            transform: translateY(-50%);
             color: var(--nj-red);
-            padding: 8px 20px;
-            border-radius: 8px;
-            font-weight: 900;
+            opacity: 0.6;
+        }
+
+        .nav-arrow {
+            display: none;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--nj-red);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            z-index: 10;
+            transition: 0.3s;
+        }
+
+        @media (min-width: 1024px) {
+            .nav-arrow { display: flex; align-items: center; justify-content: center; cursor: pointer; }
+            .nav-arrow:hover { background: var(--nj-red); box-shadow: 0 0 15px var(--nj-red); }
+        }
+
+        .card-hidden { display: none !important; }
+
+        .tag {
+            font-size: 9px;
+            padding: 4px 10px;
+            background: rgba(255, 0, 0, 0.1);
+            border: 1px solid rgba(255, 0, 0, 0.2);
+            border-radius: 100px;
+            color: #ff8888;
             text-transform: uppercase;
-            font-size: 10px;
+            font-weight: bold;
+        }
+
+        .vermarktung-badge {
+            background: linear-gradient(90deg, #5865F2, #ff0000, #5865F2);
+            background-size: 200% auto;
+            animation: shine 3s linear infinite;
+            color: white;
+            font-size: 9px;
+            font-weight: 900;
+            padding: 4px 12px;
+            border-radius: 4px;
+            margin-bottom: 12px;
             letter-spacing: 1px;
-            transition: 0.3s;
-            text-decoration: none;
+            box-shadow: 0 0 10px rgba(88, 101, 242, 0.3);
         }
-        .btn-action:hover {
-            background: var(--nj-red);
+
+        @keyframes shine { to { background-position: 200% center; } }
+
+        .placeholder-card {
+            border: 2px dashed rgba(255, 0, 0, 0.15);
+            background: rgba(255, 0, 0, 0.02);
+        }
+
+        .discord-btn {
+            background-color: var(--discord-blurple);
             color: white;
-            box-shadow: 0 0 15px var(--nj-red-glow);
-        }
-
-        .btn-discord {
-            background: linear-gradient(135deg, #ff0000, #440000);
-            color: white;
-            padding: 16px 36px;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
             transition: 0.3s;
-            display: inline-block;
-            text-decoration: none;
+            font-weight: 800;
         }
-        .btn-discord:hover { 
-            transform: scale(1.1); 
-            filter: brightness(1.2);
-            box-shadow: 0 0 20px var(--nj-red-glow);
+        .discord-btn:hover {
+            background-color: #4752c4;
+            transform: scale(1.02);
         }
 
-        .partner-img {
-            width: 80px; height: 80px;
-            border-radius: 50%;
-            border: 2px solid var(--nj-red);
-            object-fit: cover;
-            box-shadow: 0 0 15px rgba(255,0,0,0.3);
-            margin-bottom: 2rem;
+        /* Banner Style */
+        .hosting-notice-banner {
+            background: linear-gradient(135deg, #1a0000 0%, #0a0a0a 100%);
+            border: 1px solid #ff0000;
+            border-left: 8px solid #ff0000;
+            box-shadow: 0 10px 30px rgba(255, 0, 0, 0.1);
         }
 
-        .icon-box {
-            width: 80px; height: 80px;
-            border-radius: 50%;
-            border: 2px solid var(--nj-red);
-            display: flex; align-items: center; justify-content: center;
-            background: #111;
-            margin-bottom: 2rem;
-            font-size: 32px;
+        /* Protection Warning */
+        #protection-alert {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 0, 0, 0.9);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: bold;
+            display: none;
+            z-index: 1000;
+            animation: fadeInOut 2s forwards;
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; }
         }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;">
 
     <div class="bg-overlay"></div>
+    <div id="protection-alert">SICHERHEITSSYSTEM: QUELLCODE GESCHÜTZT</div>
 
-    <!-- Zurück Button -->
-    <a href="index.html" class="btn-back">
-        <span>◀</span> ZURÜCK ZUM HUB
+    <a href="index.html" class="fixed top-4 left-4 md:top-6 md:left-6 z-50 bg-black/80 border border-red-600/50 text-red-600 px-4 py-2 rounded-xl text-[10px] font-bold tracking-widest hover:bg-red-600 hover:text-white transition-all backdrop-blur-sm">
+        ◀ BACK
     </a>
 
-    <section class="min-h-screen flex flex-col items-center pt-32 pb-24 px-6 max-w-7xl mx-auto">
+    <main class="pt-24 pb-16 px-4">
         
-        <!-- Header -->
-        <div class="text-center mb-24">
-            <h1 class="ninja-font text-5xl md:text-8xl text-red-600 mb-6 drop-shadow-[0_0_15px_rgba(255,0,0,0.5)]">PARTNER</h1>
-            <p class="display-font text-gray-400 text-xs md:text-sm tracking-[0.6em] uppercase">Shinobi Allianz</p>
-            <div class="w-24 h-1 bg-red-600 mx-auto mt-8 shadow-[0_0_10px_#ff0000]"></div>
+        <header class="text-center mb-12">
+            <h1 class="header-font text-5xl md:text-8xl text-red-600 mb-2 tracking-tighter drop-shadow-[0_0_15px_rgba(255,0,0,0.6)]">PARTNER</h1>
+            <p class="display-font text-gray-500 text-[9px] md:text-xs tracking-[0.5em] uppercase opacity-60">Discord Community Hub</p>
+        </header>
+
+        <div class="search-wrapper">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="partnerSearch" placeholder="Suche nach Servern..." class="search-input" oninput="filterPartners()">
         </div>
 
-        <!-- Partner Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-10 w-full mb-32">
+        <div class="slider-wrapper max-w-[1440px] mx-auto mb-20">
+            <button onclick="moveSlider(-1)" class="nav-arrow left-4" aria-label="Zurück">◀</button>
+            <button onclick="moveSlider(1)" class="nav-arrow right-4" aria-label="Vor">▶</button>
+
+            <div id="slider" class="partner-slider-container">
+                <!-- ISH Card -->
+                <article class="partner-card" data-tags="ish werbeserver promotion">
+                    <div class="vermarktung-badge">SERVER PROMOTION</div>
+                    <img src="https://cdn.discordapp.com/icons/1203478050772090880/16cc93e55386e836704bac5c42743d9d.png" class="w-20 h-20 md:w-24 md:h-24 rounded-full border-2 border-red-600 mb-6 shadow-xl" alt="ISH">
+                    <h3 class="display-font text-white text-lg md:text-xl mb-4">ISH | Werbeserver</h3>
+                    <p class="text-[10px] text-gray-400 mb-6 uppercase tracking-wider leading-relaxed">Dein Hub für Server-Vorstellungen & Wachstum.</p>
+                    <div class="flex flex-wrap justify-center gap-2 mb-8">
+                        <span class="tag">Discord</span>
+                        <span class="tag">Werbung</span>
+                    </div>
+                    <a href="https://discord.gg/eXsTmZ6jw" class="mt-auto w-full discord-btn py-4 rounded-xl text-[10px] uppercase tracking-widest">Server Beitreten</a>
+                </article>
+
+                <!-- PartnerLounge Card -->
+                <article class="partner-card" data-tags="partnerlounge kooperation events">
+                    <div class="vermarktung-badge">TOP KOOPERATION</div>
+                    <img src="https://s1.directupload.eu/images/260307/zs9wyqtu.png" class="w-20 h-20 md:w-24 md:h-24 rounded-full border-2 border-red-600 mb-6 shadow-xl" alt="PL">
+                    <h3 class="display-font text-white text-lg md:text-xl mb-4">PartnerLounge</h3>
+                    <p class="text-[10px] text-gray-400 mb-6 uppercase tracking-wider leading-relaxed">Vernetzung & Gemeinsame Community-Events.</p>
+                    <div class="flex flex-wrap justify-center gap-2 mb-8">
+                        <span class="tag">Partner</span>
+                        <span class="tag">Events</span>
+                    </div>
+                    <a href="https://discord.gg/WsXSy38yQB" class="mt-auto w-full discord-btn py-4 rounded-xl text-[10px] uppercase tracking-widest">Server Beitreten</a>
+                </article>
+
+                <!-- Placeholder -->
+                <article class="partner-card placeholder-card" data-tags="frei anfrage">
+                    <div class="flex flex-col items-center opacity-70 hover:opacity-100 transition-opacity">
+                        <div class="w-20 h-20 md:w-24 md:h-24 rounded-full border-2 border-dashed border-red-900/40 flex items-center justify-center mb-6">
+                            <span class="text-3xl text-red-900/40">✚</span>
+                        </div>
+                        <h3 class="display-font text-gray-400 text-lg md:text-xl mb-4">DEIN SERVER</h3>
+                        
+                        <div class="text-left w-full space-y-3 mb-8 px-2">
+                            <div class="flex items-center gap-3">
+                                <span class="w-1.5 h-1.5 bg-red-600 rounded-full"></span>
+                                <p class="text-[9px] text-gray-500 uppercase font-bold">Promotion-Banner</p>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <span class="w-1.5 h-1.5 bg-red-600 rounded-full"></span>
+                                <p class="text-[9px] text-gray-500 uppercase font-bold">Direkter Invite Flow</p>
+                            </div>
+                        </div>
+
+                        <a href="index.html#discord" class="mt-auto w-full border border-red-600/30 text-red-600/60 py-4 rounded-xl text-[10px] font-bold uppercase tracking-widest hover:bg-red-600 hover:text-white transition-all">Partner werden</a>
+                    </div>
+                </article>
+            </div>
             
-            <!-- Slot 1: ISH | Werbeserver -->
-            <div class="glass p-10 flex flex-col items-center text-center">
-                <img src="https://cdn.discordapp.com/icons/1203478050772090880/16cc93e55386e836704bac5c42743d9d.png" alt="ISH Logo" class="partner-img">
-                <h3 class="display-font text-red-500 text-xl mb-3">ISH | Werbeserver</h3>
-                <p class="text-xs text-gray-500 mb-8 leading-relaxed font-medium uppercase tracking-wider">
-                    Das primäre Zentrum für Reichweite und Vernetzung. Dein Gateway für effektive Promotion.
-                </p>
-                <div class="mt-auto">
-                    <a href="https://discord.gg/eXsTmZ6jw" target="_blank" class="btn-action">Server Beitreten</a>
-                </div>
-            </div>
-
-            <!-- Partner 2 -->
-            <div class="glass p-10 flex flex-col items-center text-center">
-                <div class="icon-box">🏮</div>
-                <h3 class="display-font text-red-500 text-xl mb-3">Dojo Vision</h3>
-                <p class="text-xs text-gray-500 mb-8 leading-relaxed font-medium uppercase tracking-wider">
-                    Experten für digitale Ästhetik und Interface-Technologien im Schatten-Sektor.
-                </p>
-                <div class="mt-auto">
-                    <a href="#" class="btn-action">Details</a>
-                </div>
-            </div>
-
-            <!-- Partner 3 -->
-            <div class="glass p-10 flex flex-col items-center text-center">
-                <div class="icon-box">⚔️</div>
-                <h3 class="display-font text-red-500 text-xl mb-3">Ronin Net</h3>
-                <p class="text-xs text-gray-500 mb-8 leading-relaxed font-medium uppercase tracking-wider">
-                    Verschlüsselte Infrastruktur für unabhängige Operationen und globale Konnektivität.
-                </p>
-                <div class="mt-auto">
-                    <a href="#" class="btn-action">Ansehen</a>
-                </div>
-            </div>
-
+            <div id="noResults" class="hidden text-center py-20 display-font text-sm uppercase tracking-widest text-zinc-700">Keine Server gefunden</div>
         </div>
 
-        <!-- Call to Action Section -->
-        <div class="w-full max-w-4xl">
-            <div class="glass p-12 relative overflow-hidden text-center border-t-4 border-t-red-600">
-                <h2 class="display-font text-red-500 text-2xl mb-8">Eigene Partnerschaft</h2>
+        <!-- NEUE FUNKTION: HOSTING HINWEIS -->
+        <section class="max-w-5xl mx-auto px-4">
+            <div class="hosting-notice-banner p-8 md:p-10 rounded-2xl relative overflow-hidden group">
+                <div class="absolute -right-10 -top-10 w-40 h-40 bg-red-600/10 rounded-full blur-3xl group-hover:bg-red-600/20 transition-all"></div>
                 
-                <div class="bg-red-600/5 border border-red-600/20 rounded-2xl p-10 mb-12">
-                    <p class="text-[11px] text-red-500 font-black uppercase tracking-[0.3em] mb-4">Protokoll-Hinweis</p>
-                    <p class="text-sm text-gray-300 leading-relaxed max-w-2xl mx-auto">
-                        Möchtest du Teil unserer Allianz werden? Wir verwalten alle Kooperationen über unser gesichertes Discord-Zentrum.
-                    </p>
+                <div class="flex flex-col md:flex-row items-center gap-8 relative z-10">
+                    <div class="bg-red-600 p-5 rounded-2xl shadow-[0_0_20px_rgba(255,0,0,0.4)]">
+                        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                        </svg>
+                    </div>
+                    
+                    <div class="flex-1 text-center md:text-left">
+                        <div class="flex items-center justify-center md:justify-start gap-3 mb-2">
+                            <span class="bg-red-600 text-white text-[8px] font-black px-2 py-1 rounded uppercase tracking-tighter">New Update</span>
+                            <h2 class="display-font text-red-600 text-xl md:text-2xl tracking-widest">FREE WEBSITE HOSTING</h2>
+                        </div>
+                        <p class="text-xs text-gray-400 uppercase tracking-widest leading-relaxed mb-4">
+                            Ab sofort bieten wir allen Partnern exklusives <span class="text-white font-bold">kostenloses Website-Hosting</span> an. Jedes Partner-Projekt wird direkt in unser Netzwerk integriert, sodass Nutzer eure eigene Webseite bequem über unsere Plattform finden können.
+                        </p>
+                        <div class="flex flex-wrap justify-center md:justify-start gap-4">
+                            <div class="flex items-center gap-2">
+                                <span class="text-red-600">✔</span>
+                                <span class="text-[9px] font-bold text-gray-500 uppercase">Netzwerk-Integration</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-red-600">✔</span>
+                                <span class="text-[9px] font-bold text-gray-500 uppercase">Hohe Sichtbarkeit</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-red-600">✔</span>
+                                <span class="text-[9px] font-bold text-gray-500 uppercase">Keine Hosting-Kosten</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="index.html#discord" class="bg-red-600 hover:bg-white hover:text-black text-white px-8 py-4 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all shadow-lg active:scale-95">
+                        Hosting anfragen
+                    </a>
                 </div>
-
-                <p class="text-[10px] text-gray-500 mb-10 uppercase tracking-[0.4em]">
-                    Klicke unten, um zum Discord auf der Hauptseite zu gelangen.
-                </p>
-
-                <a href="index.html#discord" class="btn-discord">
-                    Partner werden via Discord
-                </a>
             </div>
-        </div>
+        </section>
 
-    </section>
+    </main>
 
-    <footer class="py-16 text-center border-t border-white/5 opacity-40">
-        <div class="display-font text-red-600 text-xl mb-4">NICOMINECITH</div>
-        <p class="text-[9px] uppercase tracking-[1em] font-bold">Partner-Verzeichnis &copy; 2024</p>
+    <footer class="py-12 text-center border-t border-red-900/10">
+        <p class="text-[9px] uppercase tracking-[0.6em] font-bold text-gray-500 opacity-50">
+            Nicominecith Crew Dev Team © 2026
+        </p>
     </footer>
 
+    <script>
+        // Slider Control
+        function moveSlider(direction) {
+            const slider = document.getElementById('slider');
+            const scrollAmount = window.innerWidth < 768 ? 320 : 400;
+            slider.scrollBy({ left: direction * scrollAmount, behavior: 'smooth' });
+        }
+
+        // Search Filter
+        function filterPartners() {
+            const query = document.getElementById('partnerSearch').value.toLowerCase().trim();
+            const cards = document.querySelectorAll('.partner-card');
+            const noResults = document.getElementById('noResults');
+            let found = false;
+
+            cards.forEach(card => {
+                const tags = card.getAttribute('data-tags').toLowerCase();
+                const name = card.querySelector('h3').innerText.toLowerCase();
+                if (tags.includes(query) || name.includes(query)) {
+                    card.classList.remove('card-hidden');
+                    found = true;
+                } else {
+                    card.classList.add('card-hidden');
+                }
+            });
+            noResults.classList.toggle('hidden', found);
+        }
+
+        // PROTECTION SYSTEM
+        function showWarn() {
+            const alert = document.getElementById('protection-alert');
+            alert.style.display = 'block';
+            setTimeout(() => { alert.style.display = 'none'; }, 2000);
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) || (e.ctrlKey && e.key === 'u')) {
+                e.preventDefault();
+                showWarn();
+                return false;
+            }
+        });
+
+        const slider = document.getElementById('slider');
+        let isDown = false, startX, scrollLeft;
+        slider.addEventListener('mousedown', (e) => { isDown = true; startX = e.pageX - slider.offsetLeft; scrollLeft = slider.scrollLeft; });
+        slider.addEventListener('mouseleave', () => isDown = false);
+        slider.addEventListener('mouseup', () => isDown = false);
+        slider.addEventListener('mousemove', (e) => { if(!isDown) return; e.preventDefault(); const x = e.pageX - slider.offsetLeft; const walk = (x - startX) * 2; slider.scrollLeft = scrollLeft - walk; });
+    </script>
 </body>
 </html>
 
