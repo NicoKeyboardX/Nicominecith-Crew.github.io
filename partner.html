@@ -264,17 +264,30 @@
                     <a href="https://discord.gg/eXsTmZ6jw" class="mt-auto w-full discord-btn py-4 rounded-xl text-[10px] uppercase tracking-widest">Server Beitreten</a>
                 </article>
 
-                <!-- PartnerLounge Card -->
-                <article class="partner-card" data-tags="partnerlounge kooperation events">
-                    <div class="vermarktung-badge">TOP KOOPERATION</div>
-                    <img src="https://s1.directupload.eu/images/260307/zs9wyqtu.png" class="w-20 h-20 md:w-24 md:h-24 rounded-full border-2 border-red-600 mb-6 shadow-xl" alt="PL">
-                    <h3 class="display-font text-white text-lg md:text-xl mb-4">PartnerLounge</h3>
-                    <p class="text-[10px] text-gray-400 mb-6 uppercase tracking-wider leading-relaxed">Vernetzung & Gemeinsame Community-Events.</p>
+                <!-- Nicominecith Card -->
+                <article class="partner-card" data-tags="nicominecith community gaming">
+                    <div class="vermarktung-badge">NEW PARTNER</div>
+                    <img src="https://cdn.discordapp.com/icons/1429217535399825592/465042d5160494befb0334f7d9c640ad.png?size=4096" class="w-20 h-20 md:w-24 md:h-24 rounded-full border-2 border-red-600 mb-6 shadow-xl" alt="Nicominecith">
+                    <h3 class="display-font text-white text-lg md:text-xl mb-4">Nicominecith</h3>
+                    <p class="text-[10px] text-gray-400 mb-6 uppercase tracking-wider leading-relaxed">Die ultimative Community für Gaming & Projekte.</p>
                     <div class="flex flex-wrap justify-center gap-2 mb-8">
-                        <span class="tag">Partner</span>
-                        <span class="tag">Events</span>
+                        <span class="tag">Gaming</span>
+                        <span class="tag">Community</span>
                     </div>
-                    <a href="https://discord.gg/WsXSy38yQB" class="mt-auto w-full discord-btn py-4 rounded-xl text-[10px] uppercase tracking-widest">Server Beitreten</a>
+                    <a href="https://discord.gg/ARPx4NGxf3" class="mt-auto w-full discord-btn py-4 rounded-xl text-[10px] uppercase tracking-widest">Server Beitreten</a>
+                </article>
+
+                <!-- NEW: Skylander Academy Card -->
+                <article class="partner-card" data-tags="skylander academy community gaming spyro">
+                    <div class="vermarktung-badge">COMMUNITY SERVER</div>
+                    <img src="https://cdn.discordapp.com/icons/1429217535399825592/465042d5160494befb0334f7d9c640ad.png?size=4096" class="w-20 h-20 md:w-24 md:h-24 rounded-full border-2 border-red-600 mb-6 shadow-xl" alt="Skylander Academy">
+                    <h3 class="display-font text-white text-lg md:text-xl mb-4">Skylander Academy</h3>
+                    <p class="text-[10px] text-gray-400 mb-6 uppercase tracking-wider leading-relaxed">Ein schwebendes Inselreich voller Portale für junge Kadetten.</p>
+                    <div class="flex flex-wrap justify-center gap-2 mb-8">
+                        <span class="tag">Skylander</span>
+                        <span class="tag">Academy</span>
+                    </div>
+                    <a href="https://discord.gg/ARPx4NGxf3" class="mt-auto w-full discord-btn py-4 rounded-xl text-[10px] uppercase tracking-widest">Server Beitreten</a>
                 </article>
 
                 <!-- Placeholder -->
@@ -304,7 +317,7 @@
             <div id="noResults" class="hidden text-center py-20 display-font text-sm uppercase tracking-widest text-zinc-700">Keine Server gefunden</div>
         </div>
 
-        <!-- NEUE FUNKTION: HOSTING HINWEIS -->
+        <!-- HOSTING HINWEIS -->
         <section class="max-w-5xl mx-auto px-4">
             <div class="hosting-notice-banner p-8 md:p-10 rounded-2xl relative overflow-hidden group">
                 <div class="absolute -right-10 -top-10 w-40 h-40 bg-red-600/10 rounded-full blur-3xl group-hover:bg-red-600/20 transition-all"></div>
@@ -372,7 +385,9 @@
 
             cards.forEach(card => {
                 const tags = card.getAttribute('data-tags').toLowerCase();
-                const name = card.querySelector('h3').innerText.toLowerCase();
+                const nameElement = card.querySelector('h3');
+                if (!nameElement) return;
+                const name = nameElement.innerText.toLowerCase();
                 if (tags.includes(query) || name.includes(query)) {
                     card.classList.remove('card-hidden');
                     found = true;
