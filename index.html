@@ -17,7 +17,6 @@
             --glass-border: rgba(255, 0, 0, 0.2);
         }
 
-        /* Kopierschutz */
         * {
             -webkit-user-select: none;
             -moz-user-select: none;
@@ -26,12 +25,17 @@
             -webkit-touch-callout: none;
         }
 
+        /* Eingabefelder müssen auswählbar sein */
+        input, textarea {
+            user-select: text !important;
+            -webkit-user-select: text !important;
+        }
+
         body {
             background-color: #050505;
             color: #e0e0e0;
             font-family: 'Noto Sans JP', sans-serif;
             overflow-x: hidden;
-            -webkit-tap-highlight-color: transparent;
             margin: 0;
             background: radial-gradient(circle at 50% 50%, #150000 0%, #000 100%);
             background-attachment: fixed;
@@ -43,8 +47,8 @@
 
         /* Rotating Eye Asset */
         .eye-container {
-            width: 220px;
-            height: 220px;
+            width: clamp(120px, 30vw, 200px);
+            height: clamp(120px, 30vw, 200px);
             position: relative;
             margin: 0 auto;
             border-radius: 50%;
@@ -81,222 +85,283 @@
         .nav-link { font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; color: #888; transition: 0.3s; cursor: pointer; }
         .nav-link:hover { color: var(--nj-red); text-shadow: 0 0 8px var(--nj-red); }
 
-        /* Mobile Menu Button - Fixes the bug in the screenshot */
-        .mobile-menu-trigger {
-            display: none;
-            font-size: 11px;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: white;
-            cursor: pointer;
-            background: var(--nj-red);
-            padding: 8px 16px;
-            border-radius: 4px;
-            box-shadow: 0 0 10px rgba(255,0,0,0.4);
-        }
-
-        /* Responsive Navigation Logic */
-        @media (max-width: 1023px) {
-            .desktop-links { display: none !important; }
-            .mobile-menu-trigger { display: block !important; }
-        }
-
-        /* Mobile Menu Overlay */
+        /* Mobile Menu */
         #mobile-menu {
             position: fixed; top: 0; right: -100%; width: 100%; height: 100vh;
             background: rgba(0, 0, 0, 0.98);
             z-index: 2000; transition: 0.4s ease-in-out;
-            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3rem;
+            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem;
         }
         #mobile-menu.active { right: 0; }
+        .mobile-link { font-size: 1.2rem; font-family: 'Shojumaru', cursive; color: white; text-transform: uppercase; }
 
-        .mobile-link {
-            font-size: 1.8rem; font-family: 'Shojumaru', cursive; color: white;
-            text-transform: uppercase; letter-spacing: 4px;
-        }
-        .mobile-link:active { color: var(--nj-red); }
-
-        /* Content Sections */
-        .page-section { display: none; min-height: 100vh; flex-direction: column; align-items: center; padding: 120px 20px 60px; }
+        /* Sections */
+        .page-section { display: none; min-height: 100vh; flex-direction: column; align-items: center; padding: 100px 20px 60px; }
         .active-section { display: flex; animation: sectionIn 0.5s ease-out forwards; }
         @keyframes sectionIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
 
-        .glass-card {
-            background: var(--glass-bg);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            padding: 2rem;
+        /* Game Area */
+        #game-canvas {
             width: 100%;
+            height: 400px;
+            background: #0a0a0a;
+            border: 2px solid #222;
+            position: relative;
+            overflow: hidden;
+            cursor: crosshair;
+            border-radius: 15px;
         }
+        .game-target {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: var(--nj-red);
+            border-radius: 50%;
+            box-shadow: 0 0 15px var(--nj-red);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+            animation: pulse 1s infinite;
+        }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
 
-        .btn-main {
+        /* Buttons */
+        .btn-syndicate {
             background: var(--nj-red);
             color: white;
-            padding: 16px 36px;
+            padding: 16px 24px;
             border-radius: 12px;
             font-weight: 900;
             text-transform: uppercase;
-            font-size: 10px;
+            font-size: 11px;
             letter-spacing: 2px;
-            box-shadow: 0 0 20px rgba(255,0,0,0.3);
+            transition: 0.3s;
+            cursor: pointer;
+            border: none;
         }
+        .btn-syndicate:hover { background: #ff1a1a; transform: translateY(-2px); }
 
-        #protection-alert {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            background: var(--nj-red); color: white; padding: 12px 24px;
-            border-radius: 12px; font-size: 11px; font-weight: 900; z-index: 10000;
-            display: none; animation: alertFade 2s forwards;
+        /* Input Styles */
+        .syndicate-input {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            padding: 12px;
+            color: white;
+            width: 100%;
+            outline: none;
+            transition: 0.3s;
         }
-        @keyframes alertFade { 0%, 100% { opacity: 0; } 20%, 80% { opacity: 1; } }
+        .syndicate-input:focus { border-color: var(--nj-red); background: rgba(255,0,0,0.05); }
+
     </style>
 </head>
 <body oncontextmenu="return false;">
 
-    <div id="protection-alert">SICHERHEITSSYSTEM: QUELLCODE GESCHÜTZT</div>
-
-    <!-- Mobile Menu Overlay -->
-    <div id="mobile-menu">
-        <a href="javascript:void(0)" onclick="toggleMenu(); showPage('home')" class="mobile-link">Zentrale</a>
-        <a href="javascript:void(0)" onclick="toggleMenu(); showPage('tools')" class="mobile-link">Module</a>
-        <a href="partner.html" class="mobile-link" style="color: #ff0000;">Partner</a>
-        <div onclick="toggleMenu()" class="mt-20 text-gray-500 uppercase text-[10px] font-black tracking-[0.4em] border border-gray-800 px-8 py-3 rounded">Portal Schließen</div>
-    </div>
-
-    <!-- Header Navigation -->
+    <!-- Navigation -->
     <nav>
-        <div class="header-font text-red-600 text-lg md:text-2xl cursor-pointer tracking-tighter" onclick="showPage('home')">
-            NICOMINECITH
+        <div class="header-font text-red-600 text-lg cursor-pointer" onclick="showPage('home')">NICOMINECITH</div>
+        <div class="hidden lg:flex items-center gap-6">
+            <a onclick="showPage('home')" class="nav-link">Zentrale</a>
+            <a onclick="showPage('game')" class="nav-link">Minispiel</a>
+            <a onclick="scrollToContact()" class="nav-link">Kontakt</a>
+            <a href="partner.html" class="nav-link text-red-600">Partner</a>
         </div>
-
-        <!-- Desktop Links (Hidden on Mobile) -->
-        <div class="desktop-links flex items-center gap-8">
-            <a href="javascript:void(0)" onclick="showPage('home')" class="nav-link">Zentrale</a>
-            <a href="javascript:void(0)" onclick="showPage('tools')" class="nav-link">Module</a>
-            <a href="partner.html" class="nav-link text-red-600 font-black border-l border-red-900/40 pl-8">Partner</a>
-        </div>
-
-        <!-- Mobile Menu Trigger (Visible on Mobile/Tablet only) -->
-        <div class="mobile-menu-trigger" onclick="toggleMenu()">
-            Menü
-        </div>
+        <div class="lg:hidden text-white bg-red-600 px-4 py-2 rounded font-bold cursor-pointer" onclick="toggleMenu()">MENÜ</div>
     </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobile-menu">
+        <a onclick="toggleMenu(); showPage('home')" class="mobile-link">Zentrale</a>
+        <a onclick="toggleMenu(); showPage('game')" class="mobile-link">Minispiel</a>
+        <a onclick="toggleMenu(); scrollToContact()" class="mobile-link">Kontakt</a>
+        <a href="partner.html" class="mobile-link" style="color: #ff0000;">Partner</a>
+        <div class="h-[1px] w-2/3 bg-white/10 my-4"></div>
+        <a href="app-release.apk" download class="btn-syndicate w-2/3 text-center">Webseite als App</a>
+        <div onclick="toggleMenu()" class="mt-8 text-gray-500 uppercase text-[10px] font-black tracking-widest border border-gray-800 px-8 py-3 rounded cursor-pointer">Menü Schließen</div>
+    </div>
 
     <!-- HOME PAGE -->
     <main id="home-page" class="page-section active-section">
-        <header class="text-center mb-12">
-            <div class="eye-container mb-12">
-                <img src="https://s1.directupload.eu/images/260308/dmaon663.webp" class="eye-image" alt="Core Eye">
+        <header class="text-center mb-8">
+            <div class="eye-container mb-8">
+                <img src="https://s1.directupload.eu/images/260308/dmaon663.webp" class="eye-image" alt="Core">
             </div>
-            <h1 class="header-font text-4xl md:text-7xl text-red-600 mb-2 drop-shadow-[0_0_20px_rgba(255,0,0,0.6)] uppercase">Nicominecith</h1>
-            <p class="display-font text-gray-500 text-[9px] md:text-[11px] tracking-[0.6em] uppercase opacity-60">Digital Syndicate Network</p>
+            <h1 class="header-font text-4xl md:text-6xl text-red-600 mb-2 uppercase">Nicominecith</h1>
+            <p class="display-font text-[9px] text-gray-500 tracking-[0.5em] uppercase">Digital Syndicate Hub</p>
         </header>
 
-        <div class="max-w-xl w-full px-4 flex flex-col gap-10">
-            <div class="glass-card text-center border-t-2 border-red-600">
-                <p class="text-[12px] text-gray-400 uppercase tracking-widest leading-relaxed">
-                    Nutzen Sie die verfügbaren System-Module für Hardware-Diagnosen oder treten Sie direkt über das Portal mit unseren Partnern in Kontakt.
-                </p>
+        <div class="max-w-2xl w-full px-4 space-y-8">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <button onclick="showPage('game')" class="btn-syndicate flex items-center justify-center gap-3">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M11 4a2 2 0 114 0v1a2 2 0 012 2v1a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012-2v1z"></path><path d="M15 15l-2 2L9 13l-2 2 2 2"></path></svg>
+                    Minispiel Starten
+                </button>
+                <a href="partner.html" class="bg-white/5 border border-red-900/30 text-white p-4 rounded-xl flex items-center justify-center gap-3 font-bold hover:bg-white/10 transition">
+                    Partner Netzwerk
+                </a>
             </div>
 
-            <div class="flex flex-col sm:flex-row justify-center gap-6">
-                <button onclick="showPage('tools')" class="btn-main w-full sm:w-auto">System-Module</button>
-                <a href="partner.html" class="glass-card py-4 px-10 text-[10px] font-black uppercase tracking-widest border-red-600/40 hover:bg-red-600 hover:text-white transition-all text-center w-full sm:w-auto">Partner Netzwerk</a>
-            </div>
-
-            <!-- DISCORD SERVER WIDGET -->
-            <div class="mt-16 w-full">
-                <div class="flex items-center gap-4 mb-8">
-                    <div class="h-[1px] flex-1 bg-gradient-to-r from-transparent to-red-600/50"></div>
-                    <h2 class="display-font text-[9px] text-red-600 tracking-widest uppercase">Syncing with Syndicate</h2>
-                    <div class="h-[1px] flex-1 bg-gradient-to-l from-transparent to-red-600/50"></div>
-                </div>
-                <div class="rounded-2xl overflow-hidden border border-red-900/20 h-[450px]">
-                    <iframe src="https://discord.com/widget?id=1302663524568272999&theme=dark" width="100%" height="100%" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- MODULES PAGE -->
-    <main id="tools-page" class="page-section">
-        <h2 class="header-font text-4xl text-red-600 mb-2">MODULES</h2>
-        <p class="display-font text-[10px] text-gray-600 mb-12 tracking-[0.5em] uppercase">Diagnostic Interface</p>
-
-        <div class="px-4 w-full max-w-md">
-            <div class="glass-card border-l-4 border-red-600 bg-red-600/5">
-                <h3 class="display-font text-red-600 text-sm mb-6 uppercase">System Matrix</h3>
+            <!-- E-Mail Sektion -->
+            <section id="contact-section" class="bg-black/40 border border-red-600/20 p-6 rounded-2xl shadow-2xl">
+                <h3 class="header-font text-red-600 text-xl mb-6 text-center">E-Mail Terminal</h3>
                 <div class="space-y-4">
-                    <div class="flex justify-between items-center border-b border-white/5 pb-3">
-                        <span class="text-[10px] text-gray-500 uppercase font-bold">OS Platform</span>
-                        <span id="stat-platform" class="text-[10px] mono-font text-white">---</span>
+                    <div>
+                        <label class="block text-[10px] text-gray-500 uppercase font-bold mb-2 ml-1">Betreff / Anliegen</label>
+                        <input type="text" id="mail-subject" placeholder="Was ist dein Anliegen?" class="syndicate-input">
                     </div>
-                    <div class="flex justify-between items-center border-b border-white/5 pb-3">
-                        <span class="text-[10px] text-gray-500 uppercase font-bold">Network Core</span>
-                        <span class="text-[10px] mono-font text-green-500">CONNECTED</span>
+                    <div>
+                        <label class="block text-[10px] text-gray-500 uppercase font-bold mb-2 ml-1">Nachricht / Inhalt</label>
+                        <textarea id="mail-body" rows="4" placeholder="Schreibe hier deine Nachricht..." class="syndicate-input"></textarea>
                     </div>
-                    <div class="flex justify-between items-center border-b border-white/5 pb-3">
-                        <span class="text-[10px] text-gray-500 uppercase font-bold">Uptime</span>
-                        <span id="stat-uptime" class="text-[10px] mono-font text-red-500">00:00:00</span>
-                    </div>
+                    <button onclick="sendEmail()" class="btn-syndicate w-full py-4 mt-2 flex items-center justify-center gap-3">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        Nachricht Absenden
+                    </button>
+                    <p class="text-[9px] text-gray-600 text-center uppercase tracking-widest mt-4">Empfänger: nicominecithclips@gmail.com</p>
                 </div>
-                <div class="mt-8 p-4 border border-red-600/20 rounded-xl text-center">
-                    <p class="text-[9px] text-gray-500 uppercase font-black leading-loose">
-                        Diagnose-Tool für PC optimiert. Mobil-Ansicht zeigt System-Status-Matrix.
-                    </p>
-                </div>
+            </section>
+
+            <!-- Discord -->
+            <div class="rounded-xl overflow-hidden h-[350px] border border-red-900/20 shadow-2xl">
+                <iframe src="https://discord.com/widget?id=1302663524568272999&theme=dark" width="100%" height="100%" frameborder="0"></iframe>
             </div>
         </div>
-        
-        <button onclick="showPage('home')" class="mt-12 text-[10px] text-gray-600 uppercase tracking-widest font-black hover:text-red-600 transition-all flex items-center gap-3">
-            <span>◀</span> <span>Zurück zum Hub</span>
-        </button>
     </main>
 
-    <footer class="py-12 mt-10 text-center border-t border-red-900/10">
-        <p class="text-[9px] uppercase tracking-[0.6em] font-bold text-gray-500 opacity-50">
-            Nicominecith Crew Dev Team © 2026
-        </p>
+    <!-- GAME PAGE -->
+    <main id="game-page" class="page-section">
+        <div class="max-w-3xl w-full">
+            <header class="text-center mb-6">
+                <h2 class="header-font text-3xl text-red-600">Matrix Breach</h2>
+                <div class="flex justify-around mt-4 mono-font text-sm">
+                    <div class="text-white">SCORE: <span id="game-score" class="text-red-500">0</span></div>
+                    <div class="text-white">TIME: <span id="game-timer" class="text-red-500">30</span>s</div>
+                </div>
+            </header>
+
+            <div id="game-canvas">
+                <div id="game-start-overlay" class="absolute inset-0 flex flex-col items-center justify-center bg-black/80 z-10 p-6 text-center">
+                    <p class="display-font text-white mb-6 text-sm">Zerstöre die roten Knoten schnellstmöglich!</p>
+                    <button onclick="startGame()" class="btn-syndicate">Initialisieren</button>
+                </div>
+            </div>
+
+            <div class="mt-8 text-center">
+                <button onclick="showPage('home')" class="text-[10px] text-gray-500 uppercase tracking-widest font-black hover:text-red-600">
+                    ◀ Zurück zum Hauptquartier
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <footer class="py-8 text-center text-gray-600 text-[10px] uppercase font-bold tracking-[0.4em]">
+        NICOMINECITH CREW © 2026
     </footer>
 
     <script>
-        function toggleMenu() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('active');
-        }
-
+        // Navigation
         function showPage(p) {
             document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active-section'));
             document.getElementById(p + '-page').classList.add('active-section');
-            if(p === 'tools') initStats();
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        function initStats() {
-            const platform = document.getElementById('stat-platform');
-            if(platform) platform.textContent = navigator.platform || "Web Interface";
+        function toggleMenu() {
+            document.getElementById('mobile-menu').classList.toggle('active');
+        }
+
+        function scrollToContact() {
+            showPage('home');
+            setTimeout(() => {
+                document.getElementById('contact-section').scrollIntoView({ behavior: 'smooth' });
+            }, 100);
+        }
+
+        // Email Function
+        function sendEmail() {
+            const subject = document.getElementById('mail-subject').value;
+            const body = document.getElementById('mail-body').value;
+            const email = "nicominecithclips@gmail.com";
             
-            let startTime = Date.now();
-            const timer = setInterval(() => {
-                const up = document.getElementById('stat-uptime');
-                if(!up) { clearInterval(timer); return; }
-                let diff = Math.floor((Date.now() - startTime) / 1000);
-                let h = String(Math.floor(diff / 3600)).padStart(2, '0');
-                let m = String(Math.floor((diff % 3600) / 60)).padStart(2, '0');
-                let s = String(diff % 60).padStart(2, '0');
-                up.textContent = `${h}:${m}:${s}`;
+            if(!subject || !body) {
+                alert("Bitte fülle Betreff und Nachricht aus!");
+                return;
+            }
+
+            const mailtoUrl = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.location.href = mailtoUrl;
+        }
+
+        // Minispiel Logic
+        let score = 0;
+        let timeLeft = 30;
+        let gameActive = false;
+        let gameInterval;
+
+        function startGame() {
+            score = 0;
+            timeLeft = 30;
+            gameActive = true;
+            document.getElementById('game-score').textContent = score;
+            document.getElementById('game-timer').textContent = timeLeft;
+            document.getElementById('game-start-overlay').style.display = 'none';
+            
+            spawnTarget();
+            
+            gameInterval = setInterval(() => {
+                timeLeft--;
+                document.getElementById('game-timer').textContent = timeLeft;
+                if(timeLeft <= 0) endGame();
             }, 1000);
         }
 
-        // Security
-        document.addEventListener("keydown", e => {
-            if(e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J')) || (e.ctrlKey && e.key === 'u')) {
-                e.preventDefault();
-                const alert = document.getElementById('protection-alert');
-                alert.style.display = 'block';
-                setTimeout(() => { alert.style.display = 'none'; }, 2000);
-            }
-        });
+        function spawnTarget() {
+            if(!gameActive) return;
+            const canvas = document.getElementById('game-canvas');
+            const target = document.createElement('div');
+            target.className = 'game-target';
+            
+            const x = Math.random() * (canvas.clientWidth - 50);
+            const y = Math.random() * (canvas.clientHeight - 50);
+            
+            target.style.left = x + 'px';
+            target.style.top = y + 'px';
+            target.innerHTML = '⚡';
+            
+            target.onclick = (e) => {
+                e.stopPropagation();
+                score += 10;
+                document.getElementById('game-score').textContent = score;
+                target.remove();
+                spawnTarget();
+            };
+
+            canvas.appendChild(target);
+            
+            // Target disappears if not clicked
+            setTimeout(() => {
+                if(target.parentElement) {
+                    target.remove();
+                    spawnTarget();
+                }
+            }, 1500);
+        }
+
+        function endGame() {
+            gameActive = false;
+            clearInterval(gameInterval);
+            document.querySelectorAll('.game-target').forEach(t => t.remove());
+            const overlay = document.getElementById('game-start-overlay');
+            overlay.style.display = 'flex';
+            overlay.innerHTML = `
+                <h3 class="header-font text-red-600 text-2xl mb-2">SYSTEM HALT</h3>
+                <p class="display-font text-white mb-6">Final Score: ${score}</p>
+                <button onclick="startGame()" class="btn-syndicate">Erneut Versuchen</button>
+            `;
+        }
     </script>
 </body>
 </html>
