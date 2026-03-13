@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Nicominecith | Digital Syndicate</title>
+    <title>Nicominecith | Itachi Syndicate</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Bungee+Inline&family=Shojumaru&family=Noto+Sans+JP:wght@300;400;700;900&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
@@ -11,54 +11,60 @@
     <style>
         :root {
             --nj-red: #ff0000;
-            --nj-red-dark: #8b0000;
-            --nj-red-glow: rgba(255, 0, 0, 0.6);
-            --glass-bg: rgba(10, 10, 12, 0.95);
-            --glass-border: rgba(255, 0, 0, 0.2);
+            --nj-red-dark: #4a0000;
+            --nj-red-glow: rgba(255, 0, 0, 0.8);
+            --glass-bg: rgba(5, 5, 5, 0.9);
+            --glass-border: rgba(255, 0, 0, 0.3);
         }
 
         * {
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-            -webkit-touch-callout: none;
+            margin: 0; padding: 0; box-sizing: border-box;
+            -webkit-user-select: none; user-select: none;
         }
 
-        /* Eingabefelder müssen auswählbar sein */
-        input, textarea {
-            user-select: text !important;
-            -webkit-user-select: text !important;
-        }
+        input, textarea { user-select: text !important; -webkit-user-select: text !important; }
 
         body {
-            background-color: #050505;
+            background-color: #000;
             color: #e0e0e0;
             font-family: 'Noto Sans JP', sans-serif;
             overflow-x: hidden;
-            margin: 0;
-            background: radial-gradient(circle at 50% 50%, #150000 0%, #000 100%);
-            background-attachment: fixed;
+            background: radial-gradient(circle at 50% 50%, #1a0000 0%, #000 100%);
+        }
+
+        /* Falling Assets Background */
+        #genjutsu-bg {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 0; overflow: hidden;
+        }
+
+        .falling-item {
+            position: absolute; color: var(--nj-red);
+            font-size: 20px; opacity: 0.4;
+            animation: fall linear infinite;
+        }
+
+        @keyframes fall {
+            to { transform: translateY(110vh) rotate(360deg); }
         }
 
         .header-font { font-family: 'Shojumaru', cursive; }
         .display-font { font-family: 'Bungee Inline', cursive; }
         .mono-font { font-family: 'Fira Code', monospace; }
 
-        /* Rotating Eye Asset */
-        .eye-container {
-            width: clamp(120px, 30vw, 200px);
-            height: clamp(120px, 30vw, 200px);
-            position: relative;
-            margin: 0 auto;
+        /* Rotating Eye Asset - Updated to use external Image */
+        .sharingan-container {
+            width: clamp(180px, 40vw, 240px);
+            height: clamp(180px, 40vw, 240px);
+            position: relative; margin: 0 auto;
             border-radius: 50%;
-            border: 2px solid var(--nj-red);
-            box-shadow: 0 0 30px var(--nj-red-glow);
+            box-shadow: 0 0 50px var(--nj-red-glow);
+            background: #000; border: 3px solid var(--nj-red);
             overflow: hidden;
-            background: black;
+            display: flex; align-items: center; justify-content: center;
         }
 
-        .eye-image {
+        .sharingan-eye-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
@@ -74,195 +80,190 @@
         nav {
             position: fixed; top: 0; left: 0; width: 100%;
             z-index: 1000; padding: 15px 5%;
-            background: rgba(0,0,0,0.9);
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid var(--glass-border);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 2px solid var(--nj-red);
+            display: flex; justify-content: space-between; align-items: center;
         }
 
-        .nav-link { font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 2px; color: #888; transition: 0.3s; cursor: pointer; }
-        .nav-link:hover { color: var(--nj-red); text-shadow: 0 0 8px var(--nj-red); }
-
-        /* Mobile Menu */
-        #mobile-menu {
-            position: fixed; top: 0; right: -100%; width: 100%; height: 100vh;
-            background: rgba(0, 0, 0, 0.98);
-            z-index: 2000; transition: 0.4s ease-in-out;
-            display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1.5rem;
-        }
-        #mobile-menu.active { right: 0; }
-        .mobile-link { font-size: 1.2rem; font-family: 'Shojumaru', cursive; color: white; text-transform: uppercase; }
-
-        /* Sections */
-        .page-section { display: none; min-height: 100vh; flex-direction: column; align-items: center; padding: 100px 20px 60px; }
-        .active-section { display: flex; animation: sectionIn 0.5s ease-out forwards; }
-        @keyframes sectionIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
-
-        /* Game Area */
-        #game-canvas {
-            width: 100%;
-            height: 400px;
-            background: #0a0a0a;
-            border: 2px solid #222;
-            position: relative;
-            overflow: hidden;
-            cursor: crosshair;
-            border-radius: 15px;
-        }
-        .game-target {
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            background: var(--nj-red);
-            border-radius: 50%;
-            box-shadow: 0 0 15px var(--nj-red);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: white;
-            animation: pulse 1s infinite;
-        }
-        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
-
-        /* Buttons */
-        .btn-syndicate {
-            background: var(--nj-red);
-            color: white;
-            padding: 16px 24px;
-            border-radius: 12px;
-            font-weight: 900;
-            text-transform: uppercase;
-            font-size: 11px;
-            letter-spacing: 2px;
-            transition: 0.3s;
-            cursor: pointer;
-            border: none;
-        }
-        .btn-syndicate:hover { background: #ff1a1a; transform: translateY(-2px); }
-
-        /* Input Styles */
-        .syndicate-input {
-            background: rgba(255,255,255,0.03);
+        .stat-box {
+            background: rgba(15, 0, 0, 0.6);
             border: 1px solid var(--glass-border);
-            border-radius: 8px;
-            padding: 12px;
-            color: white;
-            width: 100%;
-            outline: none;
+            border-radius: 12px; padding: 20px;
+            text-align: center; transition: 0.3s;
+        }
+        .stat-box:hover { border-color: var(--nj-red); box-shadow: 0 0 15px var(--nj-red-glow); }
+
+        .btn-itachi {
+            background: var(--nj-red); color: white;
+            padding: 16px 32px; border-radius: 8px;
+            font-weight: 900; text-transform: uppercase;
+            letter-spacing: 2px; transition: 0.3s;
+            cursor: pointer; border: none; width: 100%;
+            box-shadow: 0 4px 0 #8b0000;
+        }
+        .btn-itachi:active { transform: translateY(2px); box-shadow: 0 2px 0 #8b0000; }
+
+        .syndicate-input {
+            background: rgba(20, 0, 0, 0.8);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px; padding: 14px;
+            color: white; width: 100%; outline: none;
             transition: 0.3s;
         }
         .syndicate-input:focus { border-color: var(--nj-red); background: rgba(255,0,0,0.05); }
 
+        /* Mobile Menu */
+        #mobile-menu {
+            position: fixed; top: 0; right: -100%; width: 100%; height: 100vh;
+            background: rgba(0, 0, 0, 0.98); z-index: 2000;
+            transition: 0.4s ease; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; gap: 2rem;
+        }
+        #mobile-menu.active { right: 0; }
+
+        .page-section { display: none; min-height: 100vh; flex-direction: column; align-items: center; padding: 120px 20px 60px; z-index: 10; position: relative; }
+        .active-section { display: flex; animation: fadeIn 0.8s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+
+        /* Game Canvas */
+        #game-canvas {
+            width: 100%; height: 400px;
+            background: #000; border: 2px solid var(--nj-red-dark);
+            border-radius: 20px; position: relative; overflow: hidden;
+        }
+        .game-target {
+            position: absolute; width: 45px; height: 45px;
+            background: var(--nj-red); border-radius: 50%;
+            box-shadow: 0 0 20px var(--nj-red); display: flex;
+            align-items: center; justify-content: center;
+            font-size: 20px; cursor: pointer; animation: targetPulse 1s infinite;
+        }
+        @keyframes targetPulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
     </style>
 </head>
 <body oncontextmenu="return false;">
 
+    <div id="genjutsu-bg"></div>
+
     <!-- Navigation -->
     <nav>
-        <div class="header-font text-red-600 text-lg cursor-pointer" onclick="showPage('home')">NICOMINECITH</div>
-        <div class="hidden lg:flex items-center gap-6">
-            <a onclick="showPage('home')" class="nav-link">Zentrale</a>
-            <a onclick="showPage('game')" class="nav-link">Minispiel</a>
-            <a onclick="scrollToContact()" class="nav-link">Kontakt</a>
-            <a href="partner.html" class="nav-link text-red-600">Partner</a>
+        <div class="header-font text-red-600 text-xl cursor-pointer" onclick="showPage('home')">NICOMINECITH</div>
+        <div class="lg:flex hidden gap-8">
+            <a onclick="showPage('home')" class="header-font text-[10px] text-gray-400 hover:text-red-600 cursor-pointer">Zentrale</a>
+            <a onclick="showPage('game')" class="header-font text-[10px] text-gray-400 hover:text-red-600 cursor-pointer">Training</a>
+            <a href="partner.html" class="header-font text-[10px] text-red-600 cursor-pointer">Syndikat</a>
         </div>
-        <div class="lg:hidden text-white bg-red-600 px-4 py-2 rounded font-bold cursor-pointer" onclick="toggleMenu()">MENÜ</div>
+        <div class="bg-red-600 px-6 py-2 rounded text-white font-bold cursor-pointer hover:bg-red-700 transition" onclick="toggleMenu()">MENÜ</div>
     </nav>
 
     <!-- Mobile Menu -->
     <div id="mobile-menu">
-        <a onclick="toggleMenu(); showPage('home')" class="mobile-link">Zentrale</a>
-        <a onclick="toggleMenu(); showPage('game')" class="mobile-link">Minispiel</a>
-        <a onclick="toggleMenu(); scrollToContact()" class="mobile-link">Kontakt</a>
-        <a href="partner.html" class="mobile-link" style="color: #ff0000;">Partner</a>
-        <div class="h-[1px] w-2/3 bg-white/10 my-4"></div>
-        <a href="app-release.apk" download class="btn-syndicate w-2/3 text-center">Webseite als App</a>
-        <div onclick="toggleMenu()" class="mt-8 text-gray-500 uppercase text-[10px] font-black tracking-widest border border-gray-800 px-8 py-3 rounded cursor-pointer">Menü Schließen</div>
+        <a onclick="toggleMenu(); showPage('home')" class="header-font text-2xl text-white">ZENTRALE</a>
+        <a onclick="toggleMenu(); showPage('game')" class="header-font text-2xl text-white">TRAINING</a>
+        <a onclick="toggleMenu(); document.getElementById('contact-section').scrollIntoView({behavior:'smooth'})" class="header-font text-2xl text-white">KONTAKT</a>
+        <a href="partner.html" class="header-font text-2xl text-red-600">SYNDIKAT</a>
+        <div onclick="toggleMenu()" class="mt-10 border border-gray-700 px-10 py-4 text-gray-500 font-bold uppercase tracking-widest cursor-pointer">Schließen</div>
     </div>
 
     <!-- HOME PAGE -->
     <main id="home-page" class="page-section active-section">
-        <header class="text-center mb-8">
-            <div class="eye-container mb-8">
-                <img src="https://s1.directupload.eu/images/260308/dmaon663.webp" class="eye-image" alt="Core">
+        <header class="text-center mb-12">
+            <div class="sharingan-container mb-8">
+                <!-- Using your provided image link -->
+                <img src="https://s1.directupload.eu/images/260308/dmaon663.webp" class="sharingan-eye-img" alt="Uchiha Sharingan">
             </div>
-            <h1 class="header-font text-4xl md:text-6xl text-red-600 mb-2 uppercase">Nicominecith</h1>
-            <p class="display-font text-[9px] text-gray-500 tracking-[0.5em] uppercase">Digital Syndicate Hub</p>
+            <h1 class="header-font text-5xl md:text-7xl text-red-600 mb-2 tracking-tighter">Nicominecith</h1>
+            <p class="display-font text-[10px] text-gray-500 tracking-[0.6em] uppercase">Digital Syndicate Hub</p>
         </header>
 
-        <div class="max-w-2xl w-full px-4 space-y-8">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <button onclick="showPage('game')" class="btn-syndicate flex items-center justify-center gap-3">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M11 4a2 2 0 114 0v1a2 2 0 012 2v1a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012-2v1z"></path><path d="M15 15l-2 2L9 13l-2 2 2 2"></path></svg>
-                    Minispiel Starten
-                </button>
-                <a href="partner.html" class="bg-white/5 border border-red-900/30 text-white p-4 rounded-xl flex items-center justify-center gap-3 font-bold hover:bg-white/10 transition">
-                    Partner Netzwerk
-                </a>
-            </div>
-
-            <!-- E-Mail Sektion -->
-            <section id="contact-section" class="bg-black/40 border border-red-600/20 p-6 rounded-2xl shadow-2xl">
-                <h3 class="header-font text-red-600 text-xl mb-6 text-center">E-Mail Terminal</h3>
-                <div class="space-y-4">
-                    <div>
-                        <label class="block text-[10px] text-gray-500 uppercase font-bold mb-2 ml-1">Betreff / Anliegen</label>
-                        <input type="text" id="mail-subject" placeholder="Was ist dein Anliegen?" class="syndicate-input">
-                    </div>
-                    <div>
-                        <label class="block text-[10px] text-gray-500 uppercase font-bold mb-2 ml-1">Nachricht / Inhalt</label>
-                        <textarea id="mail-body" rows="4" placeholder="Schreibe hier deine Nachricht..." class="syndicate-input"></textarea>
-                    </div>
-                    <button onclick="sendEmail()" class="btn-syndicate w-full py-4 mt-2 flex items-center justify-center gap-3">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                        Nachricht Absenden
-                    </button>
-                    <p class="text-[9px] text-gray-600 text-center uppercase tracking-widest mt-4">Empfänger: nicominecithclips@gmail.com</p>
+        <div class="max-w-4xl w-full space-y-12">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="stat-box">
+                    <p class="text-[8px] text-gray-500 uppercase font-black mb-1">Status</p>
+                    <p class="text-red-600 font-bold animate-pulse">AKTIV</p>
                 </div>
-            </section>
+                <div class="stat-box">
+                    <p class="text-[8px] text-gray-500 uppercase font-black mb-1">Agenten</p>
+                    <p class="text-white font-bold">1.200+</p>
+                </div>
+                <div class="stat-box">
+                    <p class="text-[8px] text-gray-500 uppercase font-black mb-1">Level</p>
+                    <p class="text-white font-bold">UCHIHA</p>
+                </div>
+                <div class="stat-box">
+                    <p class="text-[8px] text-gray-500 uppercase font-black mb-1">Sicherheit</p>
+                    <p class="text-red-600 font-bold">MAXIMAL</p>
+                </div>
+            </div>
 
             <!-- Discord -->
-            <div class="rounded-xl overflow-hidden h-[350px] border border-red-900/20 shadow-2xl">
-                <iframe src="https://discord.com/widget?id=1302663524568272999&theme=dark" width="100%" height="100%" frameborder="0"></iframe>
+            <div class="bg-black/80 border-2 border-red-600/30 rounded-3xl overflow-hidden shadow-2xl h-[500px]">
+                <div class="bg-red-600/10 p-4 flex justify-between items-center border-b border-red-600/20">
+                    <span class="mono-font text-[10px] text-red-500 font-bold tracking-widest uppercase">Genjutsu_Feed_Live</span>
+                    <div class="flex gap-2"><div class="w-2 h-2 rounded-full bg-red-600"></div></div>
+                </div>
+                <iframe src="https://discord.com/widget?id=1302663524568272999&theme=dark" width="100%" height="100%" frameborder="0" allowtransparency="true"></iframe>
             </div>
+
+            <!-- Email Section -->
+            <section id="contact-section" class="bg-black/60 border border-red-600/20 p-8 rounded-3xl shadow-2xl">
+                <h3 class="header-font text-red-600 text-2xl mb-8 text-center uppercase">E-Mail Terminal</h3>
+                <div class="space-y-5 max-w-xl mx-auto">
+                    <input type="text" id="mail-subject" placeholder="Anliegen" class="syndicate-input">
+                    <textarea id="mail-body" rows="4" placeholder="Deine Nachricht an das Syndikat..." class="syndicate-input"></textarea>
+                    <button onclick="sendEmail()" class="btn-itachi">Botschaft senden</button>
+                    <p class="text-center text-[9px] text-gray-600 font-bold tracking-[0.2em] mt-4 uppercase">Empfänger: nicominecithclips@gmail.com</p>
+                </div>
+            </section>
         </div>
     </main>
 
     <!-- GAME PAGE -->
     <main id="game-page" class="page-section">
-        <div class="max-w-3xl w-full">
-            <header class="text-center mb-6">
-                <h2 class="header-font text-3xl text-red-600">Matrix Breach</h2>
-                <div class="flex justify-around mt-4 mono-font text-sm">
-                    <div class="text-white">SCORE: <span id="game-score" class="text-red-500">0</span></div>
-                    <div class="text-white">TIME: <span id="game-timer" class="text-red-500">30</span>s</div>
-                </div>
-            </header>
-
+        <div class="max-w-2xl w-full text-center">
+            <h2 class="header-font text-4xl text-red-600 mb-8 uppercase">Sharingan Training</h2>
+            <div class="flex justify-between mb-6 px-4 mono-font text-sm">
+                <div class="text-white">TREFFER: <span id="game-score" class="text-red-500">0</span></div>
+                <div class="text-white">ZEIT: <span id="game-timer" class="text-red-500">30</span>s</div>
+            </div>
             <div id="game-canvas">
-                <div id="game-start-overlay" class="absolute inset-0 flex flex-col items-center justify-center bg-black/80 z-10 p-6 text-center">
-                    <p class="display-font text-white mb-6 text-sm">Zerstöre die roten Knoten schnellstmöglich!</p>
-                    <button onclick="startGame()" class="btn-syndicate">Initialisieren</button>
+                <div id="game-start-overlay" class="absolute inset-0 flex flex-col items-center justify-center bg-black/90 z-20">
+                    <p class="display-font text-white mb-8 text-xs tracking-widest">ERHÖHE DEINE REFLEXE</p>
+                    <button onclick="startGame()" class="btn-itachi max-w-xs">Initialisieren</button>
                 </div>
             </div>
-
-            <div class="mt-8 text-center">
-                <button onclick="showPage('home')" class="text-[10px] text-gray-500 uppercase tracking-widest font-black hover:text-red-600">
-                    ◀ Zurück zum Hauptquartier
-                </button>
-            </div>
+            <button onclick="showPage('home')" class="mt-12 text-[10px] text-gray-600 uppercase font-black hover:text-red-600 transition tracking-[0.5em]">◀ Rückzug</button>
         </div>
     </main>
 
-    <footer class="py-8 text-center text-gray-600 text-[10px] uppercase font-bold tracking-[0.4em]">
-        NICOMINECITH CREW © 2026
+    <footer class="py-12 text-center">
+        <div class="h-[1px] w-32 bg-red-600/30 mx-auto mb-8"></div>
+        <p class="text-gray-700 text-[10px] font-black tracking-[0.6em] uppercase">Nicominecith Crew • Uchiha Clan © 2026</p>
     </footer>
 
     <script>
-        // Navigation
+        // Falling Background Assets
+        const bg = document.getElementById('genjutsu-bg');
+        const assets = ['👁️', '⚔️', '🦅', '🔥', '🩸'];
+        
+        function createFallingItem() {
+            const item = document.createElement('div');
+            item.className = 'falling-item';
+            item.innerText = assets[Math.floor(Math.random() * assets.length)];
+            item.style.left = Math.random() * 100 + 'vw';
+            item.style.top = '-50px';
+            
+            const duration = 6 + Math.random() * 8;
+            item.style.animationDuration = duration + 's';
+            item.style.opacity = 0.1 + Math.random() * 0.3;
+            
+            bg.appendChild(item);
+            setTimeout(() => item.remove(), duration * 1000);
+        }
+        setInterval(createFallingItem, 500);
+
+        // Page Control
         function showPage(p) {
             document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active-section'));
             document.getElementById(p + '-page').classList.add('active-section');
@@ -273,47 +274,25 @@
             document.getElementById('mobile-menu').classList.toggle('active');
         }
 
-        function scrollToContact() {
-            showPage('home');
-            setTimeout(() => {
-                document.getElementById('contact-section').scrollIntoView({ behavior: 'smooth' });
-            }, 100);
-        }
-
-        // Email Function
         function sendEmail() {
-            const subject = document.getElementById('mail-subject').value;
+            const sub = document.getElementById('mail-subject').value;
             const body = document.getElementById('mail-body').value;
-            const email = "nicominecithclips@gmail.com";
-            
-            if(!subject || !body) {
-                alert("Bitte fülle Betreff und Nachricht aus!");
-                return;
-            }
-
-            const mailtoUrl = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-            window.location.href = mailtoUrl;
+            if(!sub || !body) return alert("Pflichtfelder ausfüllen!");
+            window.location.href = `mailto:nicominecithclips@gmail.com?subject=Syndicate: ${encodeURIComponent(sub)}&body=${encodeURIComponent(body)}`;
         }
 
-        // Minispiel Logic
-        let score = 0;
-        let timeLeft = 30;
-        let gameActive = false;
-        let gameInterval;
+        // Game Logic
+        let score = 0, timeLeft = 30, gameInterval, gameActive = false;
 
         function startGame() {
-            score = 0;
-            timeLeft = 30;
-            gameActive = true;
-            document.getElementById('game-score').textContent = score;
-            document.getElementById('game-timer').textContent = timeLeft;
+            score = 0; timeLeft = 30; gameActive = true;
+            document.getElementById('game-score').innerText = score;
+            document.getElementById('game-timer').innerText = timeLeft;
             document.getElementById('game-start-overlay').style.display = 'none';
-            
             spawnTarget();
-            
             gameInterval = setInterval(() => {
                 timeLeft--;
-                document.getElementById('game-timer').textContent = timeLeft;
+                document.getElementById('game-timer').innerText = timeLeft;
                 if(timeLeft <= 0) endGame();
             }, 1000);
         }
@@ -323,31 +302,22 @@
             const canvas = document.getElementById('game-canvas');
             const target = document.createElement('div');
             target.className = 'game-target';
+            target.style.left = Math.random() * (canvas.clientWidth - 50) + 'px';
+            target.style.top = Math.random() * (canvas.clientHeight - 50) + 'px';
+            target.innerText = '🎯';
             
-            const x = Math.random() * (canvas.clientWidth - 50);
-            const y = Math.random() * (canvas.clientHeight - 50);
-            
-            target.style.left = x + 'px';
-            target.style.top = y + 'px';
-            target.innerHTML = '⚡';
-            
-            target.onclick = (e) => {
-                e.stopPropagation();
+            const hit = (e) => {
+                e.preventDefault();
                 score += 10;
-                document.getElementById('game-score').textContent = score;
+                document.getElementById('game-score').innerText = score;
                 target.remove();
                 spawnTarget();
             };
-
+            target.addEventListener('mousedown', hit);
+            target.addEventListener('touchstart', hit);
             canvas.appendChild(target);
-            
-            // Target disappears if not clicked
-            setTimeout(() => {
-                if(target.parentElement) {
-                    target.remove();
-                    spawnTarget();
-                }
-            }, 1500);
+
+            setTimeout(() => { if(target.parentElement) { target.remove(); spawnTarget(); } }, 1100);
         }
 
         function endGame() {
@@ -356,11 +326,7 @@
             document.querySelectorAll('.game-target').forEach(t => t.remove());
             const overlay = document.getElementById('game-start-overlay');
             overlay.style.display = 'flex';
-            overlay.innerHTML = `
-                <h3 class="header-font text-red-600 text-2xl mb-2">SYSTEM HALT</h3>
-                <p class="display-font text-white mb-6">Final Score: ${score}</p>
-                <button onclick="startGame()" class="btn-syndicate">Erneut Versuchen</button>
-            `;
+            overlay.innerHTML = `<h3 class="header-font text-red-600 text-2xl mb-4">Training beendet</h3><p class="text-white mb-6">Score: ${score}</p><button onclick="startGame()" class="btn-itachi max-w-xs">Erneut versuchen</button>`;
         }
     </script>
 </body>
